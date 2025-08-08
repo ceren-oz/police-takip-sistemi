@@ -1,4 +1,4 @@
-package com.example.customer_management.domain;
+package com.example.customer_management.enums;
 
 public enum MukellefTuru {
     GERCEK,
