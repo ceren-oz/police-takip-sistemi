@@ -2,6 +2,9 @@ package com.example.customer_management.domain;
 
 import com.example.customer_management.enums.*;
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenerationTime;
+import org.hibernate.annotations.GeneratorType;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,31 +15,35 @@ import java.time.LocalDateTime;
 public class Musteri {
 
     @Id
-    //@Column(length = 5)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //test amaçlı, sonra değişecek
-    private int id;  // mXXXX or sXXXX
+    @GeneratedValue(generator = "musteri-id-generator")
+    @GenericGenerator(
+            name = "musteri-id-generator",
+            strategy = "com.example.customer_management.generator.MusteriIdGenerator"
+    )
+    @Column(length = 5)
+    private String id;  // mXXXX or sXXXX
+    //gercek +tuzel
 
     @Enumerated(EnumType.STRING)
     @Column(name = "mukellef_turu", nullable = true)
-    private MukellefTuru mukellefTuru;
+    private MukellefTuru mukellefTuru;//gercek +tuzel
 
     @Column(name = "ad", length = 100)
-    private String ad;
+    private String ad;//gercek
 
     @Column(name = "soyad", length = 100)
-    private String soyad;
+    private String soyad;//gercek
 
 
     @Enumerated(EnumType.STRING)
     @Column(name = "cinsiyet")
-    private Cinsiyet cinsiyet;
+    private Cinsiyet cinsiyet;//gercek
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -50,11 +57,11 @@ public class Musteri {
 
     public String getAd() {
         return ad;
-    }
+    }//gercek
 
     public void setAd(String ad) {
         this.ad = ad;
-    }
+    }//gercek
 
     public String getSoyad() {
         return soyad;
@@ -71,56 +78,57 @@ public class Musteri {
     public void setCinsiyet(Cinsiyet cinsiyet) {
         this.cinsiyet = cinsiyet;
     }
-/* @Column(name = "ana_ad", length = 100)
-    private String anaAd;
+
+   /* @Column(name = "ana_ad", length = 100)
+    private String anaAd;//gercek
 
     @Column(name = "baba_ad", length = 100)
-    private String babaAd;
+    private String babaAd;//gercek
 
     @Column(name = "dogum_tarihi")
-    private LocalDate dogumTarihi;
+    private LocalDate dogumTarihi;//gercek
 
     @Column(name = "dogum_yeri", length = 100)
-    private String dogumYeri;*/
+    private String dogumYeri;//gercek
 
-   /* @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     @Column(name = "meslek")
-    private Meslek meslek;
+    private Meslek meslek;//gercek
 
     @Enumerated(EnumType.STRING)
     @Column(name = "egitim_durumu")
-    private EgitimDurumu egitimDurumu;
+    private EgitimDurumu egitimDurumu;//gercek
 
     @Enumerated(EnumType.STRING)
     @Column(name = "uyruk")
-    private Uyruk uyruk;
+    private Uyruk uyruk;//gercek + tuzel
 
     @Enumerated(EnumType.STRING)
     @Column(name = "ulke")
-    private Ulke ulke;
+    private Ulke ulke;//gercek + tuzel
 
     @Column(name = "tc_no", length = 11)
-    private String tcNo;
+    private String tcNo;//gercek
 
     @Column(name = "vergi_no", length = 20)
-    private String vergiNo;
+    private String vergiNo;//tuzel
 
     @Column(name = "sirket_unvani", length = 255)
-    private String sirketUnvani;
+    private String sirketUnvani;//tuzel
 
     @Enumerated(EnumType.STRING)
     @Column(name = "sirket_turu")
-    private SirketTuru sirketTuru;
+    private SirketTuru sirketTuru;//tuzel
 
     @Enumerated(EnumType.STRING)
     @Column(name = "sektor")
-    private Sektor sektor;
+    private Sektor sektor;//tuzel
 
     @Column(name = "ozel_musteri_mi")
-    private Boolean ozelMusteriMi;
+    private Boolean ozelMusteriMi;//gercek+tuzel
 
     @Column(name = "sgk_kullaniyor_mu")
-    private Boolean sgkKullaniyorMu;
+    private Boolean sgkKullaniyorMu;//gercek + tuzel
 
     @Column(name = "olusturulma_tarihi")
     private LocalDateTime olusturulmaTarihi;
