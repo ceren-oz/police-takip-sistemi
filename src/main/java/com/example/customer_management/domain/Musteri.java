@@ -8,6 +8,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 //şimdilik test için
 @Entity
@@ -23,6 +25,15 @@ public class Musteri {
     @Column(length = 5)
     private String id;  // mXXXX or sXXXX
     //gercek +tuzel
+
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(
+            name = "ms_musteri_musteri_adres",
+            joinColumns = @JoinColumn(name = "musteri_id"),
+            inverseJoinColumns = @JoinColumn(name = "adres_id")
+    )
+    private List<MusteriAdres> adresler = new ArrayList<>();
+
 
     @Enumerated(EnumType.STRING)
     @Column(name = "mukellef_turu", nullable = true)
@@ -78,6 +89,15 @@ public class Musteri {
     public void setCinsiyet(Cinsiyet cinsiyet) {
         this.cinsiyet = cinsiyet;
     }
+
+    public List<MusteriAdres> getAdresler() {
+        return adresler;
+    }
+
+    public void setAdresler(List<MusteriAdres> adresler) {
+        this.adresler = adresler;
+    }
+
 
    /* @Column(name = "ana_ad", length = 100)
     private String anaAd;//gercek

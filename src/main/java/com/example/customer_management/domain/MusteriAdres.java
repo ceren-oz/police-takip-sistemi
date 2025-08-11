@@ -6,6 +6,8 @@ import com.example.customer_management.enums.Ulke;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 //MusteriAdres entity'sinde şimdilik bir şey yapılmıyor
 @Entity
@@ -16,13 +18,8 @@ public class MusteriAdres {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //@ManyToOne(fetch = FetchType.LAZY)
-    /*fetch type lazy yada eager olabilir, gereksiz joinleri önlemek ve
-     performans sorunlarına yol açmamak için lazy seçtik.*/
-    /*bir musteriAdres satırı fetch edildiğinde, Musteri objesi
-    hemen yüklenmeyecek*/
-    //@JoinColumn(name = "musteri_id", nullable = false)
-    //private Musteri musteri;
+    @ManyToMany(mappedBy = "adresler")
+    private List<Musteri> musteriler = new ArrayList<>();
 
     @Column(name = "yazisma_adresi_mi")
     private Boolean yazismaAdresiMi;
@@ -62,6 +59,120 @@ public class MusteriAdres {
 
     @Column(name = "guncelleme_tarihi")
     private LocalDateTime guncellemeTarihi;
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<Musteri> getMusteriler() {
+        return musteriler;
+    }
+
+    public void setMusteriler(List<Musteri> musteriler) {
+        this.musteriler = musteriler;
+    }
+
+    public Boolean getYazismaAdresiMi() {
+        return yazismaAdresiMi;
+    }
+
+    public void setYazismaAdresiMi(Boolean yazismaAdresiMi) {
+        this.yazismaAdresiMi = yazismaAdresiMi;
+    }
+
+    public String getAdresKisaAd() {
+        return adresKisaAd;
+    }
+
+    public void setAdresKisaAd(String adresKisaAd) {
+        this.adresKisaAd = adresKisaAd;
+    }
+
+    public Ulke getUlke() {
+        return ulke;
+    }
+
+    public void setUlke(Ulke ulke) {
+        this.ulke = ulke;
+    }
+
+    public Il getIl() {
+        return il;
+    }
+
+    public void setIl(Il il) {
+        this.il = il;
+    }
+
+    public Ilce getIlce() {
+        return ilce;
+    }
+
+    public void setIlce(Ilce ilce) {
+        this.ilce = ilce;
+    }
+
+    public String getCadde() {
+        return cadde;
+    }
+
+    public void setCadde(String cadde) {
+        this.cadde = cadde;
+    }
+
+    public String getSokak() {
+        return sokak;
+    }
+
+    public void setSokak(String sokak) {
+        this.sokak = sokak;
+    }
+
+    public String getApartmanAdi() {
+        return apartmanAdi;
+    }
+
+    public void setApartmanAdi(String apartmanAdi) {
+        this.apartmanAdi = apartmanAdi;
+    }
+
+    public String getDaireNo() {
+        return daireNo;
+    }
+
+    public void setDaireNo(String daireNo) {
+        this.daireNo = daireNo;
+    }
+
+    public String getPostaKodu() {
+        return postaKodu;
+    }
+
+    public void setPostaKodu(String postaKodu) {
+        this.postaKodu = postaKodu;
+    }
+
+    public LocalDateTime getOlusturulmaTarihi() {
+        return olusturulmaTarihi;
+    }
+
+    public void setOlusturulmaTarihi(LocalDateTime olusturulmaTarihi) {
+        this.olusturulmaTarihi = olusturulmaTarihi;
+    }
+
+    public LocalDateTime getGuncellemeTarihi() {
+        return guncellemeTarihi;
+    }
+
+    public void setGuncellemeTarihi(LocalDateTime guncellemeTarihi) {
+        this.guncellemeTarihi = guncellemeTarihi;
+    }
+
 
 
 }
