@@ -2,9 +2,11 @@ package com.example.customer_management.service;
 
 import com.example.customer_management.domain.Musteri;
 import com.example.customer_management.domain.MusteriAdres;
+import com.example.customer_management.domain.MusteriEposta;
 import com.example.customer_management.mapper.MusteriDTO;
 import com.example.customer_management.mapper.MusteriMapper;
 import com.example.customer_management.repository.MusteriAdresRepository;
+import com.example.customer_management.repository.MusteriEpostaRepository;
 import com.example.customer_management.repository.MusteriRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,15 +21,19 @@ public class MusteriService {
     private final MusteriAdresRepository musteriAdresRepository;
     private final MusteriMapper musteriMapper;
 
+    private final MusteriEpostaRepository musteriEpostaRepository;
+
 
     @Autowired
     public MusteriService(MusteriRepository musteriRepository,
                           MusteriAdresRepository musteriAdresRepository,
-                          MusteriMapper musteriMapper)
+                          MusteriMapper musteriMapper,
+                          MusteriEpostaRepository musteriEpostaRepository)
     {
         this.musteriRepository = musteriRepository;
         this.musteriAdresRepository = musteriAdresRepository;
         this.musteriMapper = musteriMapper;
+        this.musteriEpostaRepository = musteriEpostaRepository;
     }
 
 
@@ -48,6 +54,13 @@ public class MusteriService {
                     adres.getMusteriler().add(musteri);
                 }
             }
+        }
+
+        if (musteriDTO.getEpostalar() != null && !musteriDTO.getEpostalar().isEmpty()) {
+            for (MusteriEposta eposta : musteriDTO.getEpostalar()) {
+                eposta.setMusteri(musteri); // set FK
+            }
+            musteri.setEpostalar(musteriDTO.getEpostalar());
         }
 
         Musteri saved = musteriRepository.save(musteri);

@@ -1,48 +1,17 @@
-package com.example.customer_management.domain;
+package com.example.customer_management.mapper;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.example.customer_management.domain.Musteri;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
-import java.time.LocalDateTime;
+public class MusteriEpostaDTO {
 
-@Entity
-@Table(name="ms_musteri_eposta")
-//@Getter
-//@Setter
-public class MusteriEposta extends BaseEntity{
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;// E-posta kaydı ID’si (PK)
-
-    @ManyToOne
-    @JoinColumn(name="musteri_id",nullable=false)
-    @JsonIgnore
     private Musteri musteri; //FK ŞİMDİLİK YORUMDA
 
-    @Column(name="eposta_adresi",length=254)
     private String epostaAdresi;
 
-    @Column (name="etk_izni_var_mi")
     private Boolean etkIzniVarMi;
 
-    @Column(name="varsayilan_mi")
     private Boolean varsayilanMi;
-
-//    @Column(name="olusturulma_tarihi")
-//    private LocalDateTime olusturulmaTarihi;
-//
-//    @Column(name = "guncelleme_tarihi")
-//    private LocalDateTime guncellemeTarihi;
-
-
-    public Long getId() {
-        return id;
-    }
-
-
 
     public Musteri getMusteri() {
         return musteri;
@@ -75,7 +44,4 @@ public class MusteriEposta extends BaseEntity{
     public void setVarsayilanMi(Boolean varsayilanMi) {
         this.varsayilanMi = varsayilanMi;
     }
-
-
-
 }

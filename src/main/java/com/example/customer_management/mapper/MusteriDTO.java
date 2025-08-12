@@ -1,6 +1,7 @@
 package com.example.customer_management.mapper;
 
 import com.example.customer_management.domain.MusteriAdres;
+import com.example.customer_management.domain.MusteriEposta;
 import com.example.customer_management.enums.Cinsiyet;
 import com.example.customer_management.enums.MukellefTuru;
 import jakarta.persistence.*;
@@ -23,6 +24,7 @@ public class MusteriDTO {
     private Cinsiyet cinsiyet;//gercek
 
     private List<MusteriAdres> adresler = new ArrayList<>();
+    private List<MusteriEposta> epostalar = new ArrayList<>();
 
 
     public String getId() {
@@ -73,6 +75,14 @@ public class MusteriDTO {
         this.adresler = adresler;
     }
 
+    public List<MusteriEposta> getEpostalar() {
+        return epostalar;
+    }
+
+    public void setEpostalar(List<MusteriEposta> epostalar) {
+        this.epostalar = epostalar;
+    }
+
     public List<Long> getAdresIds() {
         if (adresler == null) {
             return new ArrayList<>();
@@ -81,4 +91,5 @@ public class MusteriDTO {
                 .map(MusteriAdres::getId)
                 .collect(Collectors.toList());
     }
+
 }

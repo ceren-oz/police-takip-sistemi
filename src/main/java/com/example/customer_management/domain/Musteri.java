@@ -44,9 +44,6 @@ public class Musteri extends BaseEntity{
     @OneToMany(mappedBy = "musteri", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MusteriTelefon> telefonlar = new ArrayList<>();
 
-
-
-
     @Enumerated(EnumType.STRING)
     @Column(name = "mukellef_turu", nullable = true)
     private MukellefTuru mukellefTuru;//gercek +tuzel
@@ -61,6 +58,7 @@ public class Musteri extends BaseEntity{
     @Enumerated(EnumType.STRING)
     @Column(name = "cinsiyet")
     private Cinsiyet cinsiyet;//gercek
+
 
     public String getId() {
         return id;
@@ -108,6 +106,30 @@ public class Musteri extends BaseEntity{
 
     public void setAdresler(List<MusteriAdres> adresler) {
         this.adresler = adresler;
+    }
+
+    public List<MusteriEposta> getEpostalar() {
+        return epostalar;
+    }
+
+    public void setEpostalar(List<MusteriEposta> epostalar) {
+        this.epostalar = epostalar;
+    }
+
+    public List<MusteriHesapBilgileri> getHesapBilgileri() {
+        return hesapBilgileri;
+    }
+
+    public void setHesapBilgileri(List<MusteriHesapBilgileri> hesapBilgileri) {
+        this.hesapBilgileri = hesapBilgileri;
+    }
+
+    public List<MusteriTelefon> getTelefonlar() {
+        return telefonlar;
+    }
+
+    public void setTelefonlar(List<MusteriTelefon> telefonlar) {
+        this.telefonlar = telefonlar;
     }
 
 
