@@ -3,6 +3,7 @@ package com.example.customer_management.domain;
 import com.example.customer_management.enums.Il;
 import com.example.customer_management.enums.Ilce;
 import com.example.customer_management.enums.Ulke;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -12,13 +13,14 @@ import java.util.List;
 //MusteriAdres entity'sinde şimdilik bir şey yapılmıyor
 @Entity
 @Table(name = "ms_musteri_adres")
-public class MusteriAdres {
+public class MusteriAdres extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToMany(mappedBy = "adresler")
+    @JsonIgnore
     private List<Musteri> musteriler = new ArrayList<>();
 
     @Column(name = "yazisma_adresi_mi")

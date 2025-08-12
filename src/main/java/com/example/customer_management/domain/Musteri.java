@@ -14,7 +14,7 @@ import java.util.List;
 //şimdilik test için
 @Entity
 @Table(name = "ms_musteri")
-public class Musteri {
+public class Musteri extends BaseEntity{
 
     @Id
     @GeneratedValue(generator = "musteri-id-generator")
@@ -33,6 +33,18 @@ public class Musteri {
             inverseJoinColumns = @JoinColumn(name = "adres_id")
     )
     private List<MusteriAdres> adresler = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "musteri", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MusteriEposta> epostalar = new ArrayList<>();
+
+    @OneToMany(mappedBy = "musteri", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MusteriHesapBilgileri> hesapBilgileri = new ArrayList<>();
+
+    @OneToMany(mappedBy = "musteri", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MusteriTelefon> telefonlar = new ArrayList<>();
+
+
 
 
     @Enumerated(EnumType.STRING)

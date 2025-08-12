@@ -10,9 +10,9 @@ public class MusteriTelefon extends BaseEntity{
     @GeneratedValue(strategy =GenerationType.IDENTITY) //GenerationType ı  eğer IDENTITY seçersek >AI
     private Long id; //telefon kaydı id'si
 
-//    @ManyToOne
-//    @JoinColumn(name="musteri_id",nullable=false)
-//    private Musteri musteri; //FK ŞİMDİLİK YORUMDA
+    @ManyToOne
+    @JoinColumn(name="musteri_id",nullable=false)
+    private Musteri musteri; //FK ŞİMDİLİK YORUMDA
 
     @Column(name="iletisim_telefonu_mu")
     private Boolean iletisimTelefonuMu;

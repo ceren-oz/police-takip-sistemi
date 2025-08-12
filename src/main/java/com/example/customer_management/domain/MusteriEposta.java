@@ -16,9 +16,9 @@ public class MusteriEposta extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;// E-posta kaydı ID’si (PK)
 
-//    @ManyToOne
-//    @JoinColumn(name="musteri_id",nullable=false)
-//    private Musteri musteri; //FK ŞİMDİLİK YORUMDA
+    @ManyToOne
+    @JoinColumn(name="musteri_id",nullable=false)
+    private Musteri musteri; //FK ŞİMDİLİK YORUMDA
 
     @Column(name="eposta_adresi",length=254)
     private String epostaAdresi;

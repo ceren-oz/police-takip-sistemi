@@ -12,11 +12,11 @@ public class MusteriHesapBilgileri extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // Hesap bilgisi kaydı ID’si (PK)
 
-//    @ManyToOne
-//    @JoinColumn(name="musteri_id",nullable=false)
-//    private Musteri musteri; //FK
+    @ManyToOne
+    @JoinColumn(name="musteri_id",nullable=false)
+    private Musteri musteri; //FK
 
-    @Getter
+    //@Getter
     @Column(name="banka_adi,length=100")
     private String bankaAdi;
 
