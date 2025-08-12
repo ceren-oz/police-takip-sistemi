@@ -4,28 +4,27 @@ import com.example.customer_management.domain.MusteriAdres;
 import com.example.customer_management.domain.MusteriEposta;
 import com.example.customer_management.enums.Cinsiyet;
 import com.example.customer_management.enums.MukellefTuru;
-import jakarta.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class MusteriDTO {
 
     private String id;  // mXXXX or sXXXX
 
-    private MukellefTuru mukellefTuru;//gercek +tuzel
+    private MukellefTuru mukellefTuru; // gercek + tuzel
 
-    private String ad;//gercek
+    private String ad; // gercek
 
-    private String soyad;//gercek
+    private String soyad; // gercek
 
-    private Cinsiyet cinsiyet;//gercek
+    private Cinsiyet cinsiyet; // gercek
+
 
     private List<MusteriAdres> adresler = new ArrayList<>();
-    private List<MusteriEposta> epostalar = new ArrayList<>();
 
+
+    private List<MusteriEposta> epostalar = new ArrayList<>();
 
     public String getId() {
         return id;
@@ -82,14 +81,4 @@ public class MusteriDTO {
     public void setEpostalar(List<MusteriEposta> epostalar) {
         this.epostalar = epostalar;
     }
-
-    public List<Long> getAdresIds() {
-        if (adresler == null) {
-            return new ArrayList<>();
-        }
-        return adresler.stream()
-                .map(MusteriAdres::getId)
-                .collect(Collectors.toList());
-    }
-
 }

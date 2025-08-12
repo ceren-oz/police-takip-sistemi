@@ -4,6 +4,7 @@ import com.example.customer_management.domain.Musteri;
 import com.example.customer_management.domain.MusteriAdres;
 import com.example.customer_management.domain.MusteriEposta;
 import com.example.customer_management.mapper.MusteriDTO;
+import com.example.customer_management.mapper.MusteriEpostaMapper;
 import com.example.customer_management.mapper.MusteriMapper;
 import com.example.customer_management.repository.MusteriAdresRepository;
 import com.example.customer_management.repository.MusteriEpostaRepository;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,7 +29,7 @@ public class MusteriService {
     @Autowired
     public MusteriService(MusteriRepository musteriRepository,
                           MusteriAdresRepository musteriAdresRepository,
-                          MusteriMapper musteriMapper,
+                           MusteriMapper musteriMapper,
                           MusteriEpostaRepository musteriEpostaRepository)
     {
         this.musteriRepository = musteriRepository;
@@ -35,20 +37,26 @@ public class MusteriService {
         this.musteriMapper = musteriMapper;
         this.musteriEpostaRepository = musteriEpostaRepository;
     }
-
-
     @Transactional
     public MusteriDTO createMusteri(MusteriDTO musteriDTO) {
         Musteri musteri = musteriMapper.toEntity(musteriDTO);
 
-        if (musteriDTO.getAdresIds() != null && !musteriDTO.getAdresIds().isEmpty()) {
-            // Fetch managed MusteriAdres entities by IDs
-            List<MusteriAdres> adresler = musteriAdresRepository.findAllById(musteriDTO.getAdresIds());
+        // Handle addresses
+        if (musteriDTO.getAdresler() != null && !musteriDTO.getAdresler().isEmpty()) {
+            List<MusteriAdres> adresler = new ArrayList<>();
 
-            // Set to musteri
+            for (MusteriAdres adres : musteriDTO.getAdresler()) {
+                if (adres.getId() == null) {
+                    throw new RuntimeException("Adres id is null");
+                }
+                MusteriAdres managedAdres = musteriAdresRepository.findById(adres.getId())
+                        .orElseThrow(() -> new RuntimeException("MusteriAdres not found with id: " + adres.getId()));
+                adresler.add(managedAdres);
+            }
+
             musteri.setAdresler(adresler);
 
-            // Sync inverse side: add musteri to each MusteriAdres's musteriler list
+            // Sync inverse side
             for (MusteriAdres adres : adresler) {
                 if (!adres.getMusteriler().contains(musteri)) {
                     adres.getMusteriler().add(musteri);
@@ -56,16 +64,30 @@ public class MusteriService {
             }
         }
 
+        // Handle e-mails
         if (musteriDTO.getEpostalar() != null && !musteriDTO.getEpostalar().isEmpty()) {
+            List<MusteriEposta> epostaEntities = new ArrayList<>();
+
             for (MusteriEposta eposta : musteriDTO.getEpostalar()) {
-                eposta.setMusteri(musteri); // set FK
+                MusteriEposta managedEposta;
+                if (eposta.getId() != null) {
+                    managedEposta = musteriEpostaRepository.findById(eposta.getId())
+                            .orElse(eposta);
+                } else {
+                    managedEposta = eposta; // new entity case
+                }
+                managedEposta.setMusteri(musteri);
+                epostaEntities.add(managedEposta);
             }
-            musteri.setEpostalar(musteriDTO.getEpostalar());
+
+            musteri.setEpostalar(epostaEntities);
         }
 
         Musteri saved = musteriRepository.save(musteri);
         return musteriMapper.toDTO(saved);
     }
+
+
 
 
     public MusteriDTO getMusteriById(String id) {

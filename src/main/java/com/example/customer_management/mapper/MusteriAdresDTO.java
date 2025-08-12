@@ -3,12 +3,14 @@ package com.example.customer_management.mapper;
 import com.example.customer_management.domain.Musteri;
 import com.example.customer_management.enums.Il;
 import com.example.customer_management.enums.Ilce;
-import jakarta.persistence.ManyToMany;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MusteriAdresDTO {
+
+    private Long id;
+
     private Boolean yazismaAdresiMi;
 
     private String adresKisaAd;
@@ -25,7 +27,16 @@ public class MusteriAdresDTO {
 
     private String daireNo;
 
+
     private List<Musteri> musteriler = new ArrayList<>();
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Boolean getYazismaAdresiMi() {
         return yazismaAdresiMi;

@@ -30,25 +30,26 @@ public class MusteriAdresService {
         this.musteriAdresMapper = musteriAdresMapper;
         this.musteriRepository = musteriRepository;
     }
-
-   @Transactional
+    @Transactional
     public MusteriAdresDTO createAdres(MusteriAdresDTO adresDTO) {
 
         MusteriAdres adres = musteriAdresMapper.toEntity(adresDTO);
 
         List<Musteri> managedMusteriler = new ArrayList<>();
 
-        // For each Musteri in DTO, fetch from DB and add to managed list
-        for (Musteri m : adresDTO.getMusteriler()) {
-            Musteri managedMusteri = musteriRepository.findById(m.getId())
-                    .orElseThrow(() -> new RuntimeException("Musteri not found with id: " + m.getId()));
+        // Fetch managed Musteri entities by IDs extracted from DTO entities
+        for (Musteri musteri : adresDTO.getMusteriler()) {
+            if (musteri.getId() == null) {
+                throw new RuntimeException("Musteri id is null");
+            }
+            Musteri managedMusteri = musteriRepository.findById(musteri.getId())
+                    .orElseThrow(() -> new RuntimeException("Musteri not found with id: " + musteri.getId()));
             managedMusteriler.add(managedMusteri);
         }
 
-        // Set managed Musteri list into MusteriAdres
         adres.setMusteriler(managedMusteriler);
 
-        // Also update the inverse side of the relationship for each Musteri
+        // Sync inverse side
         for (Musteri musteri : managedMusteriler) {
             if (!musteri.getAdresler().contains(adres)) {
                 musteri.getAdresler().add(adres);
@@ -59,6 +60,7 @@ public class MusteriAdresService {
 
         return musteriAdresMapper.toDTO(saved);
     }
+
 
 
     /*public void deleteAdres(Long id) {

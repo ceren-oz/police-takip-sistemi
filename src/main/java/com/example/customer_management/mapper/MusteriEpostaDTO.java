@@ -1,17 +1,26 @@
 package com.example.customer_management.mapper;
 
 import com.example.customer_management.domain.Musteri;
-import jakarta.persistence.*;
 
 public class MusteriEpostaDTO {
 
-    private Musteri musteri; //FK ŞİMDİLİK YORUMDA
+    private Long id;
+
+    private Musteri musteri;
 
     private String epostaAdresi;
 
     private Boolean etkIzniVarMi;
 
     private Boolean varsayilanMi;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Musteri getMusteri() {
         return musteri;
