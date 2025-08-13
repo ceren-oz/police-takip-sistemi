@@ -33,7 +33,7 @@ public class MusteriEpostaController {
     }
 
     @GetMapping("/musteri/{id}")
-    public ResponseEntity<List<MusteriEpostaDTO>> getEpostalarByMusteri(@PathVariable String musteriId) {
+    public ResponseEntity<List<MusteriEpostaDTO>> getEpostalarByMusteri(@PathVariable("id") String musteriId) {
         List<MusteriEpostaDTO> epostalar = musteriEpostaService.getAllEpostalarByMusteriId(musteriId);
         return ResponseEntity.ok(epostalar);
     }

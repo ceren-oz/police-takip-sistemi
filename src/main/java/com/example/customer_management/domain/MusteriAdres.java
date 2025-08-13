@@ -56,11 +56,11 @@ public class MusteriAdres extends BaseEntity{
     @Column(name = "posta_kodu", length = 10)
     private String postaKodu;
 
-    @Column(name = "olusturulma_tarihi")
+   /* @Column(name = "olusturulma_tarihi")
     private LocalDateTime olusturulmaTarihi;
 
     @Column(name = "guncelleme_tarihi")
-    private LocalDateTime guncellemeTarihi;
+    private LocalDateTime guncellemeTarihi;*/
 
 
     public Long getId() {
@@ -159,7 +159,7 @@ public class MusteriAdres extends BaseEntity{
         this.postaKodu = postaKodu;
     }
 
-    public LocalDateTime getOlusturulmaTarihi() {
+   /* public LocalDateTime getOlusturulmaTarihi() {
         return olusturulmaTarihi;
     }
 
@@ -173,7 +173,7 @@ public class MusteriAdres extends BaseEntity{
 
     public void setGuncellemeTarihi(LocalDateTime guncellemeTarihi) {
         this.guncellemeTarihi = guncellemeTarihi;
-    }
+    }*/
 
 
 

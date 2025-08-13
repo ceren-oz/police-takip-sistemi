@@ -32,10 +32,19 @@ public class MusteriAdresController {
         return ResponseEntity.ok(adresDTO);
     }
 
+    // GET /api/adresler/musteri/{musteriId}
+    @GetMapping("/musteri/{musteriId}")
+    public ResponseEntity<List<MusteriAdresDTO>> getAdreslerByMusteriId(
+            @PathVariable String musteriId) {
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAdres(@PathVariable Long id) {
-        musteriAdresService.deleteAdres(id);
-        return ResponseEntity.noContent().build();
+        List<MusteriAdresDTO> adresler = musteriAdresService.getAdreslerByMusteriId(musteriId);
+
+        if (adresler.isEmpty()) {
+            return ResponseEntity.noContent().build(); // 204 No Content
+        }
+
+        return ResponseEntity.ok(adresler); // 200 OK with list
     }
+
+
 }

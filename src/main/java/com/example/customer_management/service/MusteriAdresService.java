@@ -8,6 +8,7 @@ import com.example.customer_management.mapper.MusteriTelefonDTO;
 import com.example.customer_management.mapper.MusteriTelefonMapper;
 import com.example.customer_management.repository.MusteriAdresRepository;
 import com.example.customer_management.repository.MusteriRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,11 +65,21 @@ public class MusteriAdresService {
     }
 
 
+    @Transactional(readOnly = true)
+    public List<MusteriAdresDTO> getAdreslerByMusteriId(String musteriId) {
+
+        Musteri musteri = musteriRepository.findById(musteriId)
+                .orElseThrow(() -> new RuntimeException("Musteri not found with id: " + musteriId));
 
 
-    public void deleteAdres(Long id) {
-        musteriAdresRepository.deleteById(id);
+        List<MusteriAdres> adresler = new ArrayList<>(musteri.getAdresler());
+
+        // Convert entities to DTOs
+        return adresler.stream()
+                .map(musteriAdresMapper::toDTO)
+                .collect(Collectors.toList());
     }
+
 
     public MusteriAdresDTO getAdresById(Long id) {
         MusteriAdres adres = musteriAdresRepository.findById(id)
