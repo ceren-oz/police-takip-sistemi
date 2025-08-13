@@ -20,7 +20,7 @@ public class MusteriHesapBilgileri extends BaseEntity {
     @Column(name="banka_adi,length=100")
     private String bankaAdi;
 
-    @Column(name = "banka_sube_kodu", length = 20)
+    @Column(name = "banka_sube_kodu", length = 12)
     private String bankaSubeKodu;
 
     @Column(name = "banka_sube_adi", length = 100)
@@ -47,6 +47,16 @@ public class MusteriHesapBilgileri extends BaseEntity {
 //public void setMusteri(Musteri musteri) {
 //    this.musteri = musteri;
 //}
+
+    public Musteri getMusteri() {
+        return musteri;
+    }
+
+    public void setMusteri(Musteri musteri) {
+        this.musteri = musteri;
+    }
+
+
 
     public String getBankaAdi() {
         return bankaAdi;

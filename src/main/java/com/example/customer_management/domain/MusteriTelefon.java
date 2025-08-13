@@ -49,6 +49,14 @@ public class MusteriTelefon extends BaseEntity{
 //    this.musteri = musteri;
 //}
 
+    public Musteri getMusteri() {
+        return musteri;
+    }
+
+    public void setMusteri(Musteri musteri) {
+        this.musteri = musteri;
+    }
+
     public Boolean getIletisimTelefonuMu() {
         return iletisimTelefonuMu;
     }
