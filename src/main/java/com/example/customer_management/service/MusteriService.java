@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MusteriService {
@@ -37,7 +38,7 @@ public class MusteriService {
         this.musteriMapper = musteriMapper;
         this.musteriEpostaRepository = musteriEpostaRepository;
     }
-    @Transactional
+  /*  @Transactional
     public MusteriDTO createMusteri(MusteriDTO musteriDTO) {
         Musteri musteri = musteriMapper.toEntity(musteriDTO);
 
@@ -85,7 +86,44 @@ public class MusteriService {
 
         Musteri saved = musteriRepository.save(musteri);
         return musteriMapper.toDTO(saved);
+    }*/
+
+    @Transactional
+    public MusteriDTO createMusteri(MusteriDTO musteriDTO) {
+        Musteri musteri = musteriMapper.toEntity(musteriDTO);
+
+        // Handle addresses via adresIds
+        if (musteriDTO.getAdresIds() != null && !musteriDTO.getAdresIds().isEmpty()) {
+            List<MusteriAdres> adresler = musteriDTO.getAdresIds().stream()
+                    .map(id -> musteriAdresRepository.findById(id)
+                            .orElseThrow(() -> new RuntimeException("MusteriAdres not found with id: " + id)))
+                    .collect(Collectors.toList());
+
+            musteri.setAdresler(adresler);
+
+            // Sync inverse side
+            for (MusteriAdres adres : adresler) {
+                if (!adres.getMusteriler().contains(musteri)) {
+                    adres.getMusteriler().add(musteri);
+                }
+            }
+        }
+
+        // Handle e-mails via epostaIds
+        if (musteriDTO.getEpostaIds() != null && !musteriDTO.getEpostaIds().isEmpty()) {
+            List<MusteriEposta> epostaEntities = musteriDTO.getEpostaIds().stream()
+                    .map(id -> musteriEpostaRepository.findById(id)
+                            .orElseThrow(() -> new RuntimeException("MusteriEposta not found with id: " + id)))
+                    .peek(eposta -> eposta.setMusteri(musteri)) // set relation
+                    .collect(Collectors.toList());
+
+            musteri.setEpostalar(epostaEntities);
+        }
+
+        Musteri saved = musteriRepository.save(musteri);
+        return musteriMapper.toDTO(saved);
     }
+
 
 
 

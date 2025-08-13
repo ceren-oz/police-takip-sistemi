@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/adres")
 public class MusteriAdresController {
@@ -30,9 +32,10 @@ public class MusteriAdresController {
         return ResponseEntity.ok(adresDTO);
     }
 
-    /*@DeleteMapping("/{id}")
+
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAdres(@PathVariable Long id) {
         musteriAdresService.deleteAdres(id);
         return ResponseEntity.noContent().build();
-    }*/
+    }
 }

@@ -10,17 +10,38 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {MusteriMapper.class})
 public interface MusteriAdresMapper {
 
-   // @Mapping(target = "musteriIds", source = "musteriler", qualifiedByName = "musterilerToIds")
+
+    /*MusteriAdresDTO toDTO(MusteriAdres entity);
+
+    MusteriAdres toEntity(MusteriAdresDTO dto);*/
+
+    @Mapping(source = "musteriler", target = "musteriIds", qualifiedByName = "musteriListToIds")
     MusteriAdresDTO toDTO(MusteriAdres entity);
 
+    @Mapping(source = "musteriIds", target = "musteriler", qualifiedByName = "idsToMusteriList")
     MusteriAdres toEntity(MusteriAdresDTO dto);
 
-   /* @Named("musterilerToIds")
-    default List<String> musterilerToIds(List<Musteri> musteriler) {
-        if (musteriler == null) return new ArrayList<>();
-        return musteriler.stream().map(Musteri::getId).collect(Collectors.toList());
-    }*/
+
+    @Named("musteriListToIds")
+    static List<String> musteriListToIds(List<Musteri> musteriler) {
+        if (musteriler == null) return null;
+        return musteriler.stream()
+                .map(Musteri::getId)
+                .collect(Collectors.toList());
+    }
+
+    @Named("idsToMusteriList")
+    static List<Musteri> idsToMusteriList(List<String> ids) {
+        if (ids == null) return null;
+        return ids.stream()
+                .map(id -> {
+                    Musteri musteri = new Musteri();
+                    musteri.setId(id);
+                    return musteri;
+                })
+                .collect(Collectors.toList());
+    }
 }

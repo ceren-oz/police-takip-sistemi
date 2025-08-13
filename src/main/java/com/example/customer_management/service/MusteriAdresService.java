@@ -4,6 +4,8 @@ import com.example.customer_management.domain.Musteri;
 import com.example.customer_management.domain.MusteriAdres;
 import com.example.customer_management.mapper.MusteriAdresDTO;
 import com.example.customer_management.mapper.MusteriAdresMapper;
+import com.example.customer_management.mapper.MusteriTelefonDTO;
+import com.example.customer_management.mapper.MusteriTelefonMapper;
 import com.example.customer_management.repository.MusteriAdresRepository;
 import com.example.customer_management.repository.MusteriRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MusteriAdresService {
@@ -37,14 +40,13 @@ public class MusteriAdresService {
 
         List<Musteri> managedMusteriler = new ArrayList<>();
 
-        // Fetch managed Musteri entities by IDs extracted from DTO entities
-        for (Musteri musteri : adresDTO.getMusteriler()) {
-            if (musteri.getId() == null) {
-                throw new RuntimeException("Musteri id is null");
+
+        if(adresDTO.getMusteriIds()!=null && !adresDTO.getMusteriIds().isEmpty()){
+            for(String musteriId : adresDTO.getMusteriIds()){
+                Musteri managedMusteri = musteriRepository.findById(musteriId)
+                        .orElseThrow(()-> new RuntimeException("Musteri not found with id: " + musteriId));
+                managedMusteriler.add(managedMusteri);
             }
-            Musteri managedMusteri = musteriRepository.findById(musteri.getId())
-                    .orElseThrow(() -> new RuntimeException("Musteri not found with id: " + musteri.getId()));
-            managedMusteriler.add(managedMusteri);
         }
 
         adres.setMusteriler(managedMusteriler);
@@ -63,9 +65,10 @@ public class MusteriAdresService {
 
 
 
-    /*public void deleteAdres(Long id) {
+
+    public void deleteAdres(Long id) {
         musteriAdresRepository.deleteById(id);
-    }*/
+    }
 
     public MusteriAdresDTO getAdresById(Long id) {
         MusteriAdres adres = musteriAdresRepository.findById(id)

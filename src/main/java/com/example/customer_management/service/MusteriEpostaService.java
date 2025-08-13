@@ -33,7 +33,7 @@ public class MusteriEpostaService {
 
         MusteriEposta eposta = musteriEpostaMapper.toEntity(epostaDTO);
 
-        Musteri musteri = musteriRepository.findById(epostaDTO.getMusteri().getId())
+        Musteri musteri = musteriRepository.findById(epostaDTO.getMusteriId())
                 .orElseThrow(() -> new RuntimeException("Musteri not found"));
         eposta.setMusteri(musteri);
 
