@@ -3,12 +3,14 @@ package com.example.customer_management.service;
 import com.example.customer_management.domain.Musteri;
 import com.example.customer_management.domain.MusteriAdres;
 import com.example.customer_management.domain.MusteriEposta;
+import com.example.customer_management.domain.MusteriTelefon;
 import com.example.customer_management.mapper.MusteriDTO;
 import com.example.customer_management.mapper.MusteriEpostaMapper;
 import com.example.customer_management.mapper.MusteriMapper;
 import com.example.customer_management.repository.MusteriAdresRepository;
 import com.example.customer_management.repository.MusteriEpostaRepository;
 import com.example.customer_management.repository.MusteriRepository;
+import com.example.customer_management.repository.MusteriTelefonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,18 +27,21 @@ public class MusteriService {
     private final MusteriMapper musteriMapper;
 
     private final MusteriEpostaRepository musteriEpostaRepository;
+    private final MusteriTelefonRepository musteriTelefonRepository;
 
 
     @Autowired
     public MusteriService(MusteriRepository musteriRepository,
                           MusteriAdresRepository musteriAdresRepository,
                            MusteriMapper musteriMapper,
-                          MusteriEpostaRepository musteriEpostaRepository)
+                          MusteriEpostaRepository musteriEpostaRepository,
+                          MusteriTelefonRepository musteriTelefonRepository)
     {
         this.musteriRepository = musteriRepository;
         this.musteriAdresRepository = musteriAdresRepository;
         this.musteriMapper = musteriMapper;
         this.musteriEpostaRepository = musteriEpostaRepository;
+        this.musteriTelefonRepository = musteriTelefonRepository;
     }
   /*  @Transactional
     public MusteriDTO createMusteri(MusteriDTO musteriDTO) {
@@ -118,6 +123,17 @@ public class MusteriService {
                     .collect(Collectors.toList());
 
             musteri.setEpostalar(epostaEntities);
+        }
+
+        // Handle telefon
+        if (musteriDTO.getTelefonIds() != null && !musteriDTO.getTelefonIds().isEmpty()) {
+            List<MusteriTelefon> telEntities = musteriDTO.getTelefonIds().stream()
+                    .map(id -> musteriTelefonRepository.findById(id)
+                            .orElseThrow(() -> new RuntimeException("Musteri telefon not found with id: " + id)))
+                    .peek(telefon -> telefon.setMusteri(musteri)) // set relation
+                    .collect(Collectors.toList());
+
+            musteri.setTelefonlar(telEntities);
         }
 
         Musteri saved = musteriRepository.save(musteri);

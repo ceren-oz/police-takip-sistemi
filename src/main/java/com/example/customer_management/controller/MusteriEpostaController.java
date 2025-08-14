@@ -26,6 +26,15 @@ public class MusteriEpostaController {
         return ResponseEntity.ok(created);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<MusteriEpostaDTO> updateMusteriEposta(
+            @PathVariable Long id,
+            @RequestBody MusteriEpostaDTO epostaDTO) {
+
+        MusteriEpostaDTO updated = musteriEpostaService.updateMusteriEposta(id, epostaDTO);
+        return ResponseEntity.ok(updated);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<MusteriEpostaDTO> getEpostaById(@PathVariable Long id) {
         MusteriEpostaDTO eposta = musteriEpostaService.getMusteriEpostaById(id);

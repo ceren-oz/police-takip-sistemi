@@ -41,6 +41,37 @@ public class MusteriEpostaService {
         return musteriEpostaMapper.toDTO(saved);
     }
 
+    @Transactional
+    public MusteriEpostaDTO updateMusteriEposta(Long id, MusteriEpostaDTO epostaDTO) {
+        // Find existing email
+        MusteriEposta existingEposta = musteriEpostaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Musteri e-posta not found"));
+
+        // Update associated customer if musteriId is provided and different
+        if (epostaDTO.getMusteriId() != null &&
+                (existingEposta.getMusteri() == null ||
+                        !epostaDTO.getMusteriId().equals(existingEposta.getMusteri().getId()))) {
+
+            Musteri musteri = musteriRepository.findById(epostaDTO.getMusteriId())
+                    .orElseThrow(() -> new RuntimeException("Musteri not found"));
+            existingEposta.setMusteri(musteri);
+        }
+
+        // Update fields
+        if (epostaDTO.getEpostaAdresi() != null) {
+            existingEposta.setEpostaAdresi(epostaDTO.getEpostaAdresi());
+        }
+        if(epostaDTO.getEtkIzniVarMi() != null){
+            existingEposta.setEtkIzniVarMi(epostaDTO.getEtkIzniVarMi());
+        }
+        if(epostaDTO.getVarsayilanMi() != null){
+            existingEposta.setVarsayilanMi(epostaDTO.getVarsayilanMi());
+        }
+
+        MusteriEposta updated = musteriEpostaRepository.save(existingEposta);
+        return musteriEpostaMapper.toDTO(updated);
+    }
+
     public MusteriEpostaDTO getMusteriEpostaById(Long id){
 
         MusteriEposta eposta = musteriEpostaRepository.findById(id)

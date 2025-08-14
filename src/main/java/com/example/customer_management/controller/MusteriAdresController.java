@@ -1,6 +1,7 @@
 package com.example.customer_management.controller;
 
 import com.example.customer_management.mapper.MusteriAdresDTO;
+import com.example.customer_management.mapper.MusteriEpostaDTO;
 import com.example.customer_management.service.MusteriAdresService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,15 @@ public class MusteriAdresController {
     public ResponseEntity<MusteriAdresDTO> createAdres(@RequestBody MusteriAdresDTO adresDTO) {
         MusteriAdresDTO created = musteriAdresService.createAdres(adresDTO);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<MusteriAdresDTO> updateMusteriAdres(
+            @PathVariable Long id,
+            @RequestBody MusteriAdresDTO adresDTO) {
+
+        MusteriAdresDTO updated = musteriAdresService.updateAdres(id, adresDTO);
+        return ResponseEntity.ok(updated);
     }
 
     @GetMapping("/{id}")

@@ -64,6 +64,62 @@ public class MusteriAdresService {
         return musteriAdresMapper.toDTO(saved);
     }
 
+    @Transactional
+    public MusteriAdresDTO updateAdres(Long id, MusteriAdresDTO adresDTO){
+
+         MusteriAdres existingAdres = musteriAdresRepository.findById(id)
+                 .orElseThrow(()->new RuntimeException("Adres not found"));
+
+         if (adresDTO.getYazismaAdresiMi() != null){
+             existingAdres.setYazismaAdresiMi(adresDTO.getYazismaAdresiMi());
+         }
+         if(adresDTO.getAdresKisaAd() != null){
+             existingAdres.setAdresKisaAd(adresDTO.getAdresKisaAd());
+         }
+         if(adresDTO.getIl() != null){
+             existingAdres.setIl(adresDTO.getIl());
+         }
+         if (adresDTO.getIlce() != null){
+             existingAdres.setIlce(adresDTO.getIlce());
+         }
+         if (adresDTO.getCadde() != null){
+             existingAdres.setCadde(adresDTO.getCadde());
+         }
+        if(adresDTO.getSokak() != null){
+            existingAdres.setSokak(adresDTO.getSokak());
+        }
+        if (adresDTO.getApartmanAdi() != null){
+            existingAdres.setApartmanAdi(adresDTO.getApartmanAdi());
+        }
+        if (adresDTO.getDaireNo() != null){
+            existingAdres.setDaireNo(adresDTO.getDaireNo());
+        }
+
+        // 3. Update associated musteriler if list provided
+        if (adresDTO.getMusteriIds() != null) {
+            List<Musteri> managedMusteriler = new ArrayList<>();
+            for (String musteriId : adresDTO.getMusteriIds()) {
+                Musteri managedMusteri = musteriRepository.findById(musteriId)
+                        .orElseThrow(() -> new RuntimeException("Musteri not found with id: " + musteriId));
+                managedMusteriler.add(managedMusteri);
+            }
+
+            // Replace the old list
+            existingAdres.setMusteriler(managedMusteriler);
+
+            // Sync inverse side
+            for (Musteri musteri : managedMusteriler) {
+                if (!musteri.getAdresler().contains(existingAdres)) {
+                    musteri.getAdresler().add(existingAdres);
+                }
+            }
+        }
+
+        // 4. Save and return updated DTO
+        MusteriAdres updated = musteriAdresRepository.save(existingAdres);
+        return musteriAdresMapper.toDTO(updated);
+
+    }
 
     @Transactional(readOnly = true)
     public List<MusteriAdresDTO> getAdreslerByMusteriId(String musteriId) {

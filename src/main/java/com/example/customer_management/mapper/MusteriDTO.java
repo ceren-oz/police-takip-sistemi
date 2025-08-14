@@ -28,6 +28,7 @@ public class MusteriDTO {
 
     private List<Long> adresIds = new ArrayList<>();
     private List<Long> epostaIds = new ArrayList<>();
+    private List<Long> telefonIds = new ArrayList<>();
 
     public String getId() {
         return id;
@@ -99,5 +100,13 @@ public class MusteriDTO {
 
     public void setEpostaIds(List<Long> epostaIds) {
         this.epostaIds = epostaIds;
+    }
+
+    public List<Long> getTelefonIds() {
+        return telefonIds;
+    }
+
+    public void setTelefonIds(List<Long> telefonIds) {
+        this.telefonIds = telefonIds;
     }
 }
