@@ -76,6 +76,7 @@ public class MusteriEposta extends BaseEntity{
         this.varsayilanMi = varsayilanMi;
     }
 
-
-
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

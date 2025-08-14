@@ -21,10 +21,14 @@ public class MusteriDTO {
     private Cinsiyet cinsiyet; // gercek
 
 
-    private List<MusteriAdres> adresler = new ArrayList<>();
+  /*  private List<MusteriAdres> adresler = new ArrayList<>();
 
 
-    private List<MusteriEposta> epostalar = new ArrayList<>();
+    private List<MusteriEposta> epostalar = new ArrayList<>();*/
+
+    private List<Long> adresIds = new ArrayList<>();
+    private List<Long> epostaIds = new ArrayList<>();
+    private List<Long> telefonIds = new ArrayList<>();
 
     public String getId() {
         return id;
@@ -66,7 +70,7 @@ public class MusteriDTO {
         this.cinsiyet = cinsiyet;
     }
 
-    public List<MusteriAdres> getAdresler() {
+  /*  public List<MusteriAdres> getAdresler() {
         return adresler;
     }
 
@@ -80,5 +84,29 @@ public class MusteriDTO {
 
     public void setEpostalar(List<MusteriEposta> epostalar) {
         this.epostalar = epostalar;
+    }*/
+
+    public List<Long> getAdresIds() {
+        return adresIds;
+    }
+
+    public void setAdresIds(List<Long> adresIds) {
+        this.adresIds = adresIds;
+    }
+
+    public List<Long> getEpostaIds() {
+        return epostaIds;
+    }
+
+    public void setEpostaIds(List<Long> epostaIds) {
+        this.epostaIds = epostaIds;
+    }
+
+    public List<Long> getTelefonIds() {
+        return telefonIds;
+    }
+
+    public void setTelefonIds(List<Long> telefonIds) {
+        this.telefonIds = telefonIds;
     }
 }

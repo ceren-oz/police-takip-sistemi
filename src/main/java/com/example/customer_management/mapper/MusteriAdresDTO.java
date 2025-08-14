@@ -28,7 +28,10 @@ public class MusteriAdresDTO {
     private String daireNo;
 
 
-    private List<Musteri> musteriler = new ArrayList<>();
+    //private List<Musteri> musteriler = new ArrayList<>();
+   // private List<String> musteriIds = new ArrayList<>();
+    private String musteriId;
+
 
     public Long getId() {
         return id;
@@ -102,11 +105,27 @@ public class MusteriAdresDTO {
         this.daireNo = daireNo;
     }
 
-    public List<Musteri> getMusteriler() {
+    public String getMusteriId() {
+        return musteriId;
+    }
+
+    public void setMusteriId(String musteriId) {
+        this.musteriId = musteriId;
+    }
+
+    /*public List<Musteri> getMusteriler() {
         return musteriler;
     }
 
     public void setMusteriler(List<Musteri> musteriler) {
         this.musteriler = musteriler;
+    }*/
+
+    /*public List<String> getMusteriIds() {
+        return musteriIds;
     }
+
+    public void setMusteriIds(List<String> musteriIds) {
+        this.musteriIds = musteriIds;
+    }*/
 }

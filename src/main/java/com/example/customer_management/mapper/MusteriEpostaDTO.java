@@ -6,7 +6,7 @@ public class MusteriEpostaDTO {
 
     private Long id;
 
-    private Musteri musteri;
+    private String musteriId;
 
     private String epostaAdresi;
 
@@ -22,13 +22,13 @@ public class MusteriEpostaDTO {
         this.id = id;
     }
 
-    public Musteri getMusteri() {
+   /* public Musteri getMusteri() {
         return musteri;
     }
 
     public void setMusteri(Musteri musteri) {
         this.musteri = musteri;
-    }
+    }*/
 
     public String getEpostaAdresi() {
         return epostaAdresi;
@@ -52,5 +52,13 @@ public class MusteriEpostaDTO {
 
     public void setVarsayilanMi(Boolean varsayilanMi) {
         this.varsayilanMi = varsayilanMi;
+    }
+
+    public String getMusteriId() {
+        return musteriId;
+    }
+
+    public void setMusteriId(String musteriId) {
+        this.musteriId = musteriId;
     }
 }

@@ -20,27 +20,39 @@ public class MusteriEpostaController {
         this.musteriEpostaService = musteriEpostaService;
     }
 
-    @PostMapping
-    public ResponseEntity<MusteriEpostaDTO> createEposta(@RequestBody MusteriEpostaDTO epostaDTO) {
-        MusteriEpostaDTO created = musteriEpostaService.createMusteriEposta(epostaDTO);
+    @PostMapping("/musteri/{musteriId}")
+    public ResponseEntity<MusteriEpostaDTO> createEposta(@PathVariable String musteriId,
+                                                         @RequestBody MusteriEpostaDTO epostaDTO) {
+        MusteriEpostaDTO created = musteriEpostaService.createMusteriEposta(musteriId,epostaDTO);
         return ResponseEntity.ok(created);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<MusteriEpostaDTO> getEpostaById(@PathVariable Long id) {
-        MusteriEpostaDTO eposta = musteriEpostaService.getMusteriEpostaById(id);
+    @PutMapping("/musteri/{musteriId}/{id}")
+    public ResponseEntity<MusteriEpostaDTO> updateMusteriEposta(
+            @PathVariable String musteriId,
+            @PathVariable Long id,
+            @RequestBody MusteriEpostaDTO epostaDTO) {
+
+        MusteriEpostaDTO updated = musteriEpostaService.updateMusteriEposta(musteriId,id, epostaDTO);
+        return ResponseEntity.ok(updated);
+    }
+
+    @GetMapping("/musteri/{musteriId}/{id}")
+    public ResponseEntity<MusteriEpostaDTO> getEpostaById(@PathVariable String musteriId,
+                                                          @PathVariable Long id) {
+        MusteriEpostaDTO eposta = musteriEpostaService.getMusteriEpostaById(musteriId,id);
         return ResponseEntity.ok(eposta);
     }
 
-    @GetMapping("/musteri/{id}")
+    @GetMapping("/musteri/{musteriId}")
     public ResponseEntity<List<MusteriEpostaDTO>> getEpostalarByMusteri(@PathVariable String musteriId) {
         List<MusteriEpostaDTO> epostalar = musteriEpostaService.getAllEpostalarByMusteriId(musteriId);
         return ResponseEntity.ok(epostalar);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEposta(@PathVariable Long id) {
-        musteriEpostaService.deleteMusteriEposta(id);
+    @DeleteMapping("/musteri/{musteriId}/{id}")
+    public ResponseEntity<Void> deleteEposta(@PathVariable String musteriId, @PathVariable Long id) {
+        musteriEpostaService.deleteMusteriEposta(musteriId, id);
         return ResponseEntity.noContent().build();
     }
 }
