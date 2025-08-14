@@ -98,7 +98,7 @@ public class MusteriService {
         Musteri musteri = musteriMapper.toEntity(musteriDTO);
 
         // Handle addresses via adresIds
-        if (musteriDTO.getAdresIds() != null && !musteriDTO.getAdresIds().isEmpty()) {
+       /* if (musteriDTO.getAdresIds() != null && !musteriDTO.getAdresIds().isEmpty()) {
             List<MusteriAdres> adresler = musteriDTO.getAdresIds().stream()
                     .map(id -> musteriAdresRepository.findById(id)
                             .orElseThrow(() -> new RuntimeException("MusteriAdres not found with id: " + id)))
@@ -112,7 +112,20 @@ public class MusteriService {
                     adres.getMusteriler().add(musteri);
                 }
             }
+        }*/
+
+
+        // Handle adres
+        if (musteriDTO.getAdresIds() != null && !musteriDTO.getAdresIds().isEmpty()) {
+            List<MusteriAdres> adresEntities = musteriDTO.getAdresIds().stream()
+                    .map(id -> musteriAdresRepository.findById(id)
+                            .orElseThrow(() -> new RuntimeException("Musteri Adres not found with id: " + id)))
+                    .peek(adres -> adres.setMusteri(musteri)) // set relation
+                    .collect(Collectors.toList());
+
+            musteri.setAdresler(adresEntities);
         }
+
 
         // Handle e-mails via epostaIds
         if (musteriDTO.getEpostaIds() != null && !musteriDTO.getEpostaIds().isEmpty()) {

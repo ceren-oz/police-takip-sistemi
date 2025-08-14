@@ -1,6 +1,7 @@
 package com.example.customer_management.service;
 
 import com.example.customer_management.domain.Musteri;
+import com.example.customer_management.domain.MusteriAdres;
 import com.example.customer_management.domain.MusteriEposta;
 import com.example.customer_management.mapper.MusteriEpostaDTO;
 import com.example.customer_management.mapper.MusteriEpostaMapper;
@@ -29,11 +30,11 @@ public class MusteriEpostaService {
     }
 
     @Transactional
-    public MusteriEpostaDTO createMusteriEposta(MusteriEpostaDTO epostaDTO){
+    public MusteriEpostaDTO createMusteriEposta(String musteriId, MusteriEpostaDTO epostaDTO){
 
         MusteriEposta eposta = musteriEpostaMapper.toEntity(epostaDTO);
 
-        Musteri musteri = musteriRepository.findById(epostaDTO.getMusteriId())
+        Musteri musteri = musteriRepository.findById(musteriId)
                 .orElseThrow(() -> new RuntimeException("Musteri not found"));
         eposta.setMusteri(musteri);
 
@@ -42,17 +43,18 @@ public class MusteriEpostaService {
     }
 
     @Transactional
-    public MusteriEpostaDTO updateMusteriEposta(Long id, MusteriEpostaDTO epostaDTO) {
+    public MusteriEpostaDTO updateMusteriEposta(String musteriId,Long id,
+                                                MusteriEpostaDTO epostaDTO) {
         // Find existing email
         MusteriEposta existingEposta = musteriEpostaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Musteri e-posta not found"));
 
         // Update associated customer if musteriId is provided and different
-        if (epostaDTO.getMusteriId() != null &&
+        if (musteriId != null &&
                 (existingEposta.getMusteri() == null ||
-                        !epostaDTO.getMusteriId().equals(existingEposta.getMusteri().getId()))) {
+                        !musteriId.equals(existingEposta.getMusteri().getId()))) {
 
-            Musteri musteri = musteriRepository.findById(epostaDTO.getMusteriId())
+            Musteri musteri = musteriRepository.findById(musteriId)
                     .orElseThrow(() -> new RuntimeException("Musteri not found"));
             existingEposta.setMusteri(musteri);
         }
@@ -72,10 +74,18 @@ public class MusteriEpostaService {
         return musteriEpostaMapper.toDTO(updated);
     }
 
-    public MusteriEpostaDTO getMusteriEpostaById(Long id){
+    public MusteriEpostaDTO getMusteriEpostaById(String musteriId, Long id){
+
+        Musteri musteri = musteriRepository.findById(musteriId)
+                .orElseThrow(() -> new RuntimeException("Musteri not found with id: " + musteriId));
 
         MusteriEposta eposta = musteriEpostaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Musteri e-posta not found"));
+
+        if (!eposta.getMusteri().getId().equals(musteri.getId())) {
+            throw new RuntimeException("This address does not belong to the specified customer");
+        }
+
         return musteriEpostaMapper.toDTO(eposta);
     }
 
@@ -86,9 +96,16 @@ public class MusteriEpostaService {
                 .toList();
     }
     @Transactional
-    public void deleteMusteriEposta(Long id) {
-        if (!musteriEpostaRepository.existsById(id)) {
-            throw new RuntimeException("MusteriEposta not found");
+    public void deleteMusteriEposta(String musteriId, Long id) {
+
+        Musteri musteri = musteriRepository.findById(musteriId)
+                .orElseThrow(() -> new RuntimeException("Musteri not found with id: " + musteriId));
+
+        MusteriEposta eposta = musteriEpostaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Musteri e-posta not found"));
+
+        if (!eposta.getMusteri().getId().equals(musteri.getId())) {
+            throw new RuntimeException("This address does not belong to the specified customer");
         }
         musteriEpostaRepository.deleteById(id);
     }

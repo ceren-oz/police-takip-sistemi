@@ -19,9 +19,15 @@ public class MusteriAdres extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany(mappedBy = "adresler")
+    /*@ManyToMany(mappedBy = "adresler")
     @JsonIgnore
-    private List<Musteri> musteriler = new ArrayList<>();
+    private List<Musteri> musteriler = new ArrayList<>();*/
+
+    @ManyToOne
+    @JoinColumn(name = "musteri_id")  // foreign key column
+    @JsonIgnore
+    private Musteri musteri;
+
 
     @Column(name = "yazisma_adresi_mi")
     private Boolean yazismaAdresiMi;
@@ -56,13 +62,6 @@ public class MusteriAdres extends BaseEntity{
     @Column(name = "posta_kodu", length = 10)
     private String postaKodu;
 
-   /* @Column(name = "olusturulma_tarihi")
-    private LocalDateTime olusturulmaTarihi;
-
-    @Column(name = "guncelleme_tarihi")
-    private LocalDateTime guncellemeTarihi;*/
-
-
     public Long getId() {
         return id;
     }
@@ -71,12 +70,20 @@ public class MusteriAdres extends BaseEntity{
         this.id = id;
     }
 
-    public List<Musteri> getMusteriler() {
+   /* public List<Musteri> getMusteriler() {
         return musteriler;
     }
 
     public void setMusteriler(List<Musteri> musteriler) {
         this.musteriler = musteriler;
+    }*/
+
+    public Musteri getMusteri() {
+        return musteri;
+    }
+
+    public void setMusteri(Musteri musteri) {
+        this.musteri = musteri;
     }
 
     public Boolean getYazismaAdresiMi() {

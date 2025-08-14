@@ -14,11 +14,7 @@ import java.util.stream.Collectors;
 public interface MusteriAdresMapper {
 
 
-    /*MusteriAdresDTO toDTO(MusteriAdres entity);
-
-    MusteriAdres toEntity(MusteriAdresDTO dto);*/
-
-    @Mapping(source = "musteriler", target = "musteriIds", qualifiedByName = "musteriListToIds")
+   /* @Mapping(source = "musteriler", target = "musteriIds", qualifiedByName = "musteriListToIds")
     MusteriAdresDTO toDTO(MusteriAdres entity);
 
     @Mapping(source = "musteriIds", target = "musteriler", qualifiedByName = "idsToMusteriList")
@@ -43,5 +39,22 @@ public interface MusteriAdresMapper {
                     return musteri;
                 })
                 .collect(Collectors.toList());
+    }*/
+
+    @Mapping(source = "musteri.id", target = "musteriId")
+    MusteriAdresDTO toDTO(MusteriAdres entity);
+
+    @Mapping(source = "musteriId", target = "musteri.id")
+    MusteriAdres toEntity(MusteriAdresDTO dto);
+
+    default String mapMusteriToId(Musteri musteri){
+        return musteri != null ? musteri.getId() : null;
+    }
+
+    default Musteri mapIdToMusteri(String id){
+        if(id == null) return null;
+        Musteri musteri = new Musteri();
+        musteri.setId(id);
+        return musteri;
     }
 }

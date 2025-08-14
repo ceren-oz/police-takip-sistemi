@@ -26,13 +26,17 @@ public class Musteri extends BaseEntity{
     private String id;  // mXXXX or sXXXX
     //gercek +tuzel
 
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    /*@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(
             name = "ms_musteri_musteri_adres",
             joinColumns = @JoinColumn(name = "musteri_id"),
             inverseJoinColumns = @JoinColumn(name = "adres_id")
     )
+    private List<MusteriAdres> adresler = new ArrayList<>();*/
+
+    @OneToMany(mappedBy = "musteri", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MusteriAdres> adresler = new ArrayList<>();
+
 
 
     @OneToMany(mappedBy = "musteri", cascade = CascadeType.ALL, orphanRemoval = true)

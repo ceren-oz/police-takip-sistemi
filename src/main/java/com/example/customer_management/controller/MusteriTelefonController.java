@@ -18,7 +18,7 @@ public class MusteriTelefonController {
     }
 
     // Yeni telefon ekleme
-    @PostMapping("/{musteriId}")
+    @PostMapping("/musteri/{musteriId}")
     public MusteriTelefonDTO addTelefon(@PathVariable String musteriId, @RequestBody MusteriTelefonDTO dto) {
         return telefonService.addTelefonToMusteri(musteriId, dto);
     }

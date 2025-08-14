@@ -21,24 +21,27 @@ public class MusteriAdresController {
         this.musteriAdresService = musteriAdresService;
     }
 
-    @PostMapping
-    public ResponseEntity<MusteriAdresDTO> createAdres(@RequestBody MusteriAdresDTO adresDTO) {
-        MusteriAdresDTO created = musteriAdresService.createAdres(adresDTO);
+    @PostMapping("musteri/{musteriId}")
+    public ResponseEntity<MusteriAdresDTO> createAdres(@PathVariable String musteriId,
+            @RequestBody MusteriAdresDTO adresDTO) {
+        MusteriAdresDTO created = musteriAdresService.createAdres(musteriId,adresDTO);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/musteri/{musteriId}/{id}")
     public ResponseEntity<MusteriAdresDTO> updateMusteriAdres(
+            @PathVariable String musteriId,
             @PathVariable Long id,
             @RequestBody MusteriAdresDTO adresDTO) {
 
-        MusteriAdresDTO updated = musteriAdresService.updateAdres(id, adresDTO);
+        MusteriAdresDTO updated = musteriAdresService.updateAdres(musteriId,id, adresDTO);
         return ResponseEntity.ok(updated);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<MusteriAdresDTO> getAdresById(@PathVariable Long id) {
-        MusteriAdresDTO adresDTO = musteriAdresService.getAdresById(id);
+    @GetMapping("/musteri/{musteriId}/{id}")
+    public ResponseEntity<MusteriAdresDTO> getAdresById(@PathVariable String musteriId,
+                                                        @PathVariable Long id) {
+        MusteriAdresDTO adresDTO = musteriAdresService.getAdresById(musteriId, id);
         return ResponseEntity.ok(adresDTO);
     }
 
@@ -54,6 +57,12 @@ public class MusteriAdresController {
         }
 
         return ResponseEntity.ok(adresler); // 200 OK with list
+    }
+
+    @DeleteMapping("/musteri/{musteriId}/{id}")
+    public ResponseEntity<Void> deleteAdres(@PathVariable String musteriId, @PathVariable Long id) {
+        musteriAdresService.deleteMusteriAdres(musteriId, id);
+        return ResponseEntity.noContent().build();
     }
 
 
