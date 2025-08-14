@@ -5,7 +5,7 @@ import com.example.customer_management.mapper.MusteriTelefonDTO;
 import com.example.customer_management.service.MusteriTelefonService;
 import org.springframework.web.bind.annotation.*;
 
-        import java.util.List;
+import java.util.List;
 
 @RestController // Controller olduğunu belirtir
 @RequestMapping("/api/musteri-telefon") // URL prefix
@@ -18,7 +18,7 @@ public class MusteriTelefonController {
     }
 
     // Yeni telefon ekleme
-    @PostMapping("/{musteriId}")
+    @PostMapping("/musteri/{musteriId}")
     public MusteriTelefonDTO addTelefon(@PathVariable String musteriId, @RequestBody MusteriTelefonDTO dto) {
         return telefonService.addTelefonToMusteri(musteriId, dto);
     }
