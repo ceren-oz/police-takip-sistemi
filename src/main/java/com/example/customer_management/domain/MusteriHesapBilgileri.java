@@ -17,7 +17,7 @@ public class MusteriHesapBilgileri extends BaseEntity {
     private Musteri musteri; //FK
 
     //@Getter
-    @Column(name="banka_adi,length=100")
+    @Column(name="banka_adi",length=100)
     private String bankaAdi;
 
     @Column(name = "banka_sube_kodu", length = 12)
