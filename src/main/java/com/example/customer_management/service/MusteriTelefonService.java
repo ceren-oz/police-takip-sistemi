@@ -19,14 +19,14 @@ public class MusteriTelefonService {
     private final MusteriTelefonRepository telefonRepository;
     private final MusteriRepository musteriRepository;
 
-    // Constructor Injection → Bağımlılıkları (repository) sınıfa enjekte eder
+    // Constructor Injection = Bağımlılıkları (repository) sınıfa enjekte eder
     public MusteriTelefonService(MusteriTelefonRepository telefonRepository,
                                  MusteriRepository musteriRepository) {
         this.telefonRepository = telefonRepository;
         this.musteriRepository = musteriRepository;
     }
 
-    // 📌 Yeni telefon ekleme
+    //  Yeni telefon ekleme
     public MusteriTelefonDTO addTelefonToMusteri(String musteriId, MusteriTelefonDTO telefonDTO) {
         // 1- Önce müşteri var mı diye kontrol et
         Musteri musteri = musteriRepository.findById(musteriId)
@@ -46,7 +46,7 @@ public class MusteriTelefonService {
         return MusteriTelefonMapper.toDTO(saved);
     }
 
-    // 📌 Müşterinin tüm telefonlarını getir
+    //  Müşterinin tüm telefonlarını getir
     public List<MusteriTelefonDTO> getTelefonlarByMusteri(String musteriId) {
         return telefonRepository.findByMusteri_Id(musteriId) // Repository metodunu çağır
                 .stream() // Listeyi stream'e çevir
@@ -54,7 +54,7 @@ public class MusteriTelefonService {
                 .collect(Collectors.toList()); // Listeye geri topla
     }
 
-    // 📌 Telefon güncelleme
+    //  Telefon güncelleme
     public MusteriTelefonDTO updateTelefon(Long telefonId, MusteriTelefonDTO telefonDTO) {
         MusteriTelefon existing = telefonRepository.findById(telefonId)
                 .orElseThrow(() -> new EntityNotFoundException("Telefon bulunamadı: " + telefonId));
@@ -68,7 +68,7 @@ public class MusteriTelefonService {
         return MusteriTelefonMapper.toDTO(telefonRepository.save(existing));
     }
 
-    // 📌 Telefon silme
+    //  Telefon silme
     public void deleteTelefon(Long telefonId) {
         if (!telefonRepository.existsById(telefonId)) {
             throw new EntityNotFoundException("Telefon bulunamadı: " + telefonId);
