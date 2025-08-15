@@ -29,6 +29,7 @@ public class MusteriDTO {
     private List<Long> adresIds = new ArrayList<>();
     private List<Long> epostaIds = new ArrayList<>();
     private List<Long> telefonIds = new ArrayList<>();
+    private List<Long> hesapBilgileriIds = new ArrayList<>();
 
     public String getId() {
         return id;
@@ -108,5 +109,13 @@ public class MusteriDTO {
 
     public void setTelefonIds(List<Long> telefonIds) {
         this.telefonIds = telefonIds;
+    }
+
+    public List<Long> getHesapBilgileriIds() {
+        return hesapBilgileriIds;
+    }
+
+    public void setHesapBilgileriIds(List<Long> hesapBilgileriIds) {
+        this.hesapBilgileriIds = hesapBilgileriIds;
     }
 }

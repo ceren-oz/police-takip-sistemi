@@ -2,7 +2,7 @@ package com.example.customer_management.domain;
 import com.example.customer_management.enums.TelefonTipi;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-
+//mapper için setId eklendi
 @Entity
 @Table(name="ms_musteri_telefon")
 public class MusteriTelefon extends BaseEntity{
@@ -36,6 +36,10 @@ public class MusteriTelefon extends BaseEntity{
 //    @Column(name="guncelleme_tarihi")
 //    private LocalDateTime guncellemeTarihi;
 
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getId() {
         return id;

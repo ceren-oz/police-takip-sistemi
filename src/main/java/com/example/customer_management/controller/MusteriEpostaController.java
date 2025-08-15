@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/eposta")
+@RequestMapping("/api/musteri/{musteriId}/eposta")
 public class MusteriEpostaController {
 
     private MusteriEpostaService musteriEpostaService;
@@ -20,14 +20,14 @@ public class MusteriEpostaController {
         this.musteriEpostaService = musteriEpostaService;
     }
 
-    @PostMapping("/musteri/{musteriId}")
+    @PostMapping/*("/musteri/{musteriId}")*/
     public ResponseEntity<MusteriEpostaDTO> createEposta(@PathVariable String musteriId,
                                                          @RequestBody MusteriEpostaDTO epostaDTO) {
         MusteriEpostaDTO created = musteriEpostaService.createMusteriEposta(musteriId,epostaDTO);
         return ResponseEntity.ok(created);
     }
 
-    @PutMapping("/musteri/{musteriId}/{id}")
+    @PutMapping("/{id}")/*("/musteri/{musteriId}/{id}")*/
     public ResponseEntity<MusteriEpostaDTO> updateMusteriEposta(
             @PathVariable String musteriId,
             @PathVariable Long id,
@@ -37,20 +37,20 @@ public class MusteriEpostaController {
         return ResponseEntity.ok(updated);
     }
 
-    @GetMapping("/musteri/{musteriId}/{id}")
+    @GetMapping("/{id}")/*("/musteri/{musteriId}/{id}")*/
     public ResponseEntity<MusteriEpostaDTO> getEpostaById(@PathVariable String musteriId,
                                                           @PathVariable Long id) {
         MusteriEpostaDTO eposta = musteriEpostaService.getMusteriEpostaById(musteriId,id);
         return ResponseEntity.ok(eposta);
     }
 
-    @GetMapping("/musteri/{musteriId}")
+    @GetMapping/*("/musteri/{musteriId}")*/
     public ResponseEntity<List<MusteriEpostaDTO>> getEpostalarByMusteri(@PathVariable String musteriId) {
         List<MusteriEpostaDTO> epostalar = musteriEpostaService.getAllEpostalarByMusteriId(musteriId);
         return ResponseEntity.ok(epostalar);
     }
 
-    @DeleteMapping("/musteri/{musteriId}/{id}")
+    @DeleteMapping("/{id}")/*("/musteri/{musteriId}/{id}")*/
     public ResponseEntity<Void> deleteEposta(@PathVariable String musteriId, @PathVariable Long id) {
         musteriEpostaService.deleteMusteriEposta(musteriId, id);
         return ResponseEntity.noContent().build();

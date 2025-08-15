@@ -1,16 +1,10 @@
 package com.example.customer_management.service;
 
-import com.example.customer_management.domain.Musteri;
-import com.example.customer_management.domain.MusteriAdres;
-import com.example.customer_management.domain.MusteriEposta;
-import com.example.customer_management.domain.MusteriTelefon;
+import com.example.customer_management.domain.*;
 import com.example.customer_management.mapper.MusteriDTO;
 import com.example.customer_management.mapper.MusteriEpostaMapper;
 import com.example.customer_management.mapper.MusteriMapper;
-import com.example.customer_management.repository.MusteriAdresRepository;
-import com.example.customer_management.repository.MusteriEpostaRepository;
-import com.example.customer_management.repository.MusteriRepository;
-import com.example.customer_management.repository.MusteriTelefonRepository;
+import com.example.customer_management.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +22,7 @@ public class MusteriService {
 
     private final MusteriEpostaRepository musteriEpostaRepository;
     private final MusteriTelefonRepository musteriTelefonRepository;
+    private final MusteriHesapBilgileriRepository musteriHesapBilgileriRepository;
 
 
     @Autowired
@@ -35,13 +30,15 @@ public class MusteriService {
                           MusteriAdresRepository musteriAdresRepository,
                            MusteriMapper musteriMapper,
                           MusteriEpostaRepository musteriEpostaRepository,
-                          MusteriTelefonRepository musteriTelefonRepository)
+                          MusteriTelefonRepository musteriTelefonRepository,
+                          MusteriHesapBilgileriRepository musteriHesapBilgileriRepository)
     {
         this.musteriRepository = musteriRepository;
         this.musteriAdresRepository = musteriAdresRepository;
         this.musteriMapper = musteriMapper;
         this.musteriEpostaRepository = musteriEpostaRepository;
         this.musteriTelefonRepository = musteriTelefonRepository;
+        this.musteriHesapBilgileriRepository = musteriHesapBilgileriRepository;
     }
   /*  @Transactional
     public MusteriDTO createMusteri(MusteriDTO musteriDTO) {
@@ -148,6 +145,18 @@ public class MusteriService {
 
             musteri.setTelefonlar(telEntities);
         }
+
+        //handle hesap-bilgileri
+       if (musteriDTO.getHesapBilgileriIds() != null && !musteriDTO.getHesapBilgileriIds().isEmpty()) {
+            List<MusteriHesapBilgileri> hesapEntities = musteriDTO.getHesapBilgileriIds().stream()
+                    .map(id -> musteriHesapBilgileriRepository.findById(id)
+                            .orElseThrow(() -> new RuntimeException("Musteri hesap not found with id: " + id)))
+                    .peek(hesap -> hesap.setMusteri(musteri)) // set relation
+                    .collect(Collectors.toList());
+
+            musteri.setHesapBilgileri(hesapEntities);
+        }
+
 
         Musteri saved = musteriRepository.save(musteri);
         return musteriMapper.toDTO(saved);
