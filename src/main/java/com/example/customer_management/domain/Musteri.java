@@ -63,6 +63,58 @@ public class Musteri extends BaseEntity{
     @Column(name = "cinsiyet")
     private Cinsiyet cinsiyet;//gercek
 
+    @Column(name = "ana_ad", length = 100)
+    private String anaAd;//gercek
+
+    @Column(name = "baba_ad", length = 100)
+    private String babaAd;//gercek
+
+    @Column(name = "dogum_tarihi")
+    private LocalDate dogumTarihi;//gercek
+
+    @Column(name = "dogum_yeri", length = 100)
+    private String dogumYeri;//gercek
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "meslek")
+    private Meslek meslek;//gercek
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "egitim_durumu")
+    private EgitimDurumu egitimDurumu;//gercek
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "uyruk")
+    private Uyruk uyruk;//gercek + tuzel
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ulke")
+    private Ulke ulke;//gercek + tuzel
+
+    @Column(name = "tc_no", length = 11)
+    private String tcNo;//gercek
+
+    @Column(name = "vergi_no", length = 20)
+    private String vergiNo;//tuzel
+
+    @Column(name = "sirket_unvani", length = 255)
+    private String sirketUnvani;//tuzel
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "sirket_turu")
+    private SirketTuru sirketTuru;//tuzel
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "sektor")
+    private Sektor sektor;//tuzel
+
+    @Column(name = "ozel_musteri_mi")
+    private Boolean ozelMusteriMi;//gercek+tuzel
+
+    @Column(name = "sgk_kullaniyor_mu")
+    private Boolean sgkKullaniyorMu;//gercek + tuzel
+
+
 
     public String getId() {
         return id;
@@ -136,62 +188,123 @@ public class Musteri extends BaseEntity{
         this.telefonlar = telefonlar;
     }
 
+    public String getAnaAd() {
+        return anaAd;
+    }
 
-   /* @Column(name = "ana_ad", length = 100)
-    private String anaAd;//gercek
+    public void setAnaAd(String anaAd) {
+        this.anaAd = anaAd;
+    }
 
-    @Column(name = "baba_ad", length = 100)
-    private String babaAd;//gercek
+    public String getBabaAd() {
+        return babaAd;
+    }
 
-    @Column(name = "dogum_tarihi")
-    private LocalDate dogumTarihi;//gercek
+    public void setBabaAd(String babaAd) {
+        this.babaAd = babaAd;
+    }
 
-    @Column(name = "dogum_yeri", length = 100)
-    private String dogumYeri;//gercek
+    public LocalDate getDogumTarihi() {
+        return dogumTarihi;
+    }
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "meslek")
-    private Meslek meslek;//gercek
+    public void setDogumTarihi(LocalDate dogumTarihi) {
+        this.dogumTarihi = dogumTarihi;
+    }
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "egitim_durumu")
-    private EgitimDurumu egitimDurumu;//gercek
+    public String getDogumYeri() {
+        return dogumYeri;
+    }
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "uyruk")
-    private Uyruk uyruk;//gercek + tuzel
+    public void setDogumYeri(String dogumYeri) {
+        this.dogumYeri = dogumYeri;
+    }
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "ulke")
-    private Ulke ulke;//gercek + tuzel
+    public Meslek getMeslek() {
+        return meslek;
+    }
 
-    @Column(name = "tc_no", length = 11)
-    private String tcNo;//gercek
+    public void setMeslek(Meslek meslek) {
+        this.meslek = meslek;
+    }
 
-    @Column(name = "vergi_no", length = 20)
-    private String vergiNo;//tuzel
+    public EgitimDurumu getEgitimDurumu() {
+        return egitimDurumu;
+    }
 
-    @Column(name = "sirket_unvani", length = 255)
-    private String sirketUnvani;//tuzel
+    public void setEgitimDurumu(EgitimDurumu egitimDurumu) {
+        this.egitimDurumu = egitimDurumu;
+    }
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "sirket_turu")
-    private SirketTuru sirketTuru;//tuzel
+    public Uyruk getUyruk() {
+        return uyruk;
+    }
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "sektor")
-    private Sektor sektor;//tuzel
+    public void setUyruk(Uyruk uyruk) {
+        this.uyruk = uyruk;
+    }
 
-    @Column(name = "ozel_musteri_mi")
-    private Boolean ozelMusteriMi;//gercek+tuzel
+    public Ulke getUlke() {
+        return ulke;
+    }
 
-    @Column(name = "sgk_kullaniyor_mu")
-    private Boolean sgkKullaniyorMu;//gercek + tuzel
+    public void setUlke(Ulke ulke) {
+        this.ulke = ulke;
+    }
 
-    @Column(name = "olusturulma_tarihi")
-    private LocalDateTime olusturulmaTarihi;
+    public String getTcNo() {
+        return tcNo;
+    }
 
-    @Column(name = "guncelleme_tarihi")
-    private LocalDateTime guncellemeTarihi;*/
+    public void setTcNo(String tcNo) {
+        this.tcNo = tcNo;
+    }
 
+    public String getVergiNo() {
+        return vergiNo;
+    }
+
+    public void setVergiNo(String vergiNo) {
+        this.vergiNo = vergiNo;
+    }
+
+    public String getSirketUnvani() {
+        return sirketUnvani;
+    }
+
+    public void setSirketUnvani(String sirketUnvani) {
+        this.sirketUnvani = sirketUnvani;
+    }
+
+    public SirketTuru getSirketTuru() {
+        return sirketTuru;
+    }
+
+    public void setSirketTuru(SirketTuru sirketTuru) {
+        this.sirketTuru = sirketTuru;
+    }
+
+    public Sektor getSektor() {
+        return sektor;
+    }
+
+    public void setSektor(Sektor sektor) {
+        this.sektor = sektor;
+    }
+
+    public Boolean getOzelMusteriMi() {
+        return ozelMusteriMi;
+    }
+
+    public void setOzelMusteriMi(Boolean ozelMusteriMi) {
+        this.ozelMusteriMi = ozelMusteriMi;
+    }
+
+    public Boolean getSgkKullaniyorMu() {
+        return sgkKullaniyorMu;
+    }
+
+    public void setSgkKullaniyorMu(Boolean sgkKullaniyorMu) {
+        this.sgkKullaniyorMu = sgkKullaniyorMu;
+    }
 }
