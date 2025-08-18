@@ -172,6 +172,12 @@ public class MusteriService {
         return musteriMapper.toDTO(musteri);
     }
 
+    public MusteriDTO getMusteriByTc(String tc) {
+        Musteri musteri = musteriRepository.findByTcNo(tc)
+                .orElseThrow(() -> new RuntimeException("Musteri not found"));
+        return musteriMapper.toDTO(musteri);
+    }
+
    /* public List<Musteri> getAllMusteri(){
         return musteriRepository.findAll();
     }*/

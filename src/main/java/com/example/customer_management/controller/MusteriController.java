@@ -29,11 +29,18 @@ public class MusteriController {
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<MusteriDTO> getMusteriById(@PathVariable String id) {
         MusteriDTO musteriDTO = musteriService.getMusteriById(id);
         return ResponseEntity.ok(musteriDTO);
     }
+
+    @GetMapping("/tc/{tcNo}")
+    public ResponseEntity<MusteriDTO> getMusteriByTc(@PathVariable String tcNo) {
+        MusteriDTO musteriDTO = musteriService.getMusteriByTc(tcNo);
+        return ResponseEntity.ok(musteriDTO);
+    }
+
 
     /*@GetMapping
     public List<Musteri> getAllMusteri(){

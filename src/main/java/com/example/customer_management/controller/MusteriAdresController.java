@@ -21,14 +21,14 @@ public class MusteriAdresController {
         this.musteriAdresService = musteriAdresService;
     }
 
-    @PostMapping/*("musteri/{musteriId}")*/
+    @PostMapping
     public ResponseEntity<MusteriAdresDTO> createAdres(@PathVariable String musteriId,
             @RequestBody MusteriAdresDTO adresDTO) {
         MusteriAdresDTO created = musteriAdresService.createAdres(musteriId,adresDTO);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")/*("/musteri/{musteriId}/{id}")*/
+    @PutMapping("/{id}")
     public ResponseEntity<MusteriAdresDTO> updateMusteriAdres(
             @PathVariable String musteriId,
             @PathVariable Long id,
@@ -38,7 +38,7 @@ public class MusteriAdresController {
         return ResponseEntity.ok(updated);
     }
 
-    @GetMapping("/{id}")/*("/musteri/{musteriId}/{id}")*/
+    @GetMapping("/{id}")
     public ResponseEntity<MusteriAdresDTO> getAdresById(@PathVariable String musteriId,
                                                         @PathVariable Long id) {
         MusteriAdresDTO adresDTO = musteriAdresService.getAdresById(musteriId, id);
@@ -46,7 +46,7 @@ public class MusteriAdresController {
     }
 
     // GET /api/adresler/musteri/{musteriId}
-    @GetMapping/*("/musteri/{musteriId}")*/
+    @GetMapping
     public ResponseEntity<List<MusteriAdresDTO>> getAdreslerByMusteriId(
             @PathVariable String musteriId) {
 
@@ -59,7 +59,7 @@ public class MusteriAdresController {
         return ResponseEntity.ok(adresler); // 200 OK with list
     }
 
-    @DeleteMapping("/{id}")/*("/musteri/{musteriId}/{id}")*/
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAdres(@PathVariable String musteriId, @PathVariable Long id) {
         musteriAdresService.deleteMusteriAdres(musteriId, id);
         return ResponseEntity.noContent().build();
