@@ -1,6 +1,8 @@
 package com.example.customer_management.mapper;
 
 import com.example.customer_management.domain.Musteri;
+import com.example.customer_management.validation.EmailConstraint;
+import jakarta.validation.constraints.NotBlank;
 
 public class MusteriEpostaDTO {
 
@@ -8,6 +10,8 @@ public class MusteriEpostaDTO {
 
     private String musteriId;
 
+    @NotBlank(message = "Email cannot be empty")
+    @EmailConstraint
     private String epostaAdresi;
 
     private Boolean etkIzniVarMi;

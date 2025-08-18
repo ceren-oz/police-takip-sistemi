@@ -3,6 +3,7 @@ package com.example.customer_management.controller;
 import com.example.customer_management.domain.MusteriEposta;
 import com.example.customer_management.mapper.MusteriEpostaDTO;
 import com.example.customer_management.service.MusteriEpostaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class MusteriEpostaController {
 
     @PostMapping
     public ResponseEntity<MusteriEpostaDTO> createEposta(@PathVariable String musteriId,
-                                                         @RequestBody MusteriEpostaDTO epostaDTO) {
+                                                         @Valid @RequestBody MusteriEpostaDTO epostaDTO) {
         MusteriEpostaDTO created = musteriEpostaService.createMusteriEposta(musteriId,epostaDTO);
         return ResponseEntity.ok(created);
     }
@@ -31,7 +32,7 @@ public class MusteriEpostaController {
     public ResponseEntity<MusteriEpostaDTO> updateMusteriEposta(
             @PathVariable String musteriId,
             @PathVariable Long id,
-            @RequestBody MusteriEpostaDTO epostaDTO) {
+            @Valid @RequestBody MusteriEpostaDTO epostaDTO) {
 
         MusteriEpostaDTO updated = musteriEpostaService.updateMusteriEposta(musteriId,id, epostaDTO);
         return ResponseEntity.ok(updated);
