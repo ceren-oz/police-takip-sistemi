@@ -1,7 +1,10 @@
 package com.example.customer_management.service;
 
 import com.example.customer_management.domain.Musteri;
+import com.example.customer_management.domain.MusteriEposta;
+import com.example.customer_management.domain.MusteriHesapBilgileri;
 import com.example.customer_management.domain.MusteriTelefon;
+import com.example.customer_management.mapper.MusteriEpostaDTO;
 import com.example.customer_management.mapper.MusteriTelefonDTO;
 import com.example.customer_management.mapper.MusteriTelefonMapper;
 import com.example.customer_management.repository.MusteriRepository;
@@ -26,7 +29,7 @@ public class MusteriTelefonService {
         this.musteriRepository = musteriRepository;
     }
 
-    //  Yeni telefon ekleme
+    //  CREATE METHODU YEİ TELEFON EKLEME
     public MusteriTelefonDTO addTelefonToMusteri(String musteriId, MusteriTelefonDTO telefonDTO) {
         // 1- Önce müşteri var mı diye kontrol et
         Musteri musteri = musteriRepository.findById(musteriId)
@@ -48,31 +51,85 @@ public class MusteriTelefonService {
 
     //  Müşterinin tüm telefonlarını getir
     public List<MusteriTelefonDTO> getTelefonlarByMusteri(String musteriId) {
+
+        Musteri musteri = musteriRepository.findById(musteriId)
+                .orElseThrow(() -> new EntityNotFoundException("Müşteri bulunamadı: " + musteriId));
+
         return telefonRepository.findByMusteri_Id(musteriId) // Repository metodunu çağır
                 .stream() // Listeyi stream'e çevir
                 .map(MusteriTelefonMapper::toDTO) // Her entity’yi DTO’ya çevir
                 .collect(Collectors.toList()); // Listeye geri topla
     }
 
-    //  Telefon güncelleme
-    public MusteriTelefonDTO updateTelefon(Long telefonId, MusteriTelefonDTO telefonDTO) {
+    public MusteriTelefonDTO getMusteriTelefonById(String musteriId, Long telefonId){
+
+        Musteri musteri = musteriRepository.findById(musteriId)
+                .orElseThrow(() -> new EntityNotFoundException("Müşteri bulunamadı: " + musteriId));
+
         MusteriTelefon existing = telefonRepository.findById(telefonId)
                 .orElseThrow(() -> new EntityNotFoundException("Telefon bulunamadı: " + telefonId));
 
+        if (!existing.getMusteri().getId().equals(musteri.getId())) {
+            throw new RuntimeException("This address does not belong to the specified customer");
+        }
+
+        return MusteriTelefonMapper.toDTO(existing);
+    }
+
+    //  Telefon güncelleme
+//    public MusteriTelefonDTO updateTelefon(Long telefonId, MusteriTelefonDTO telefonDTO) {
+//        MusteriTelefon existing = telefonRepository.findById(telefonId)
+//                .orElseThrow(() -> new EntityNotFoundException("Telefon bulunamadı: " + telefonId));
+//
+//        existing.setIletisimTelefonuMu(telefonDTO.getIletisimTelefonuMu());
+//        existing.setTelefonTipi(telefonDTO.getTelefonTipi());
+//        existing.setUlkeKodu(telefonDTO.getUlkeKodu());
+//        existing.setAlanKodu(telefonDTO.getAlanKodu());
+//        existing.setTelefonNumarasi(telefonDTO.getTelefonNumarasi());
+//
+//        return MusteriTelefonMapper.toDTO(telefonRepository.save(existing));
+//    }
+    public MusteriTelefonDTO updateTelefon(String musteriId,Long telefonId, MusteriTelefonDTO telefonDTO) {
+
+        MusteriTelefon existing = telefonRepository.findById(telefonId)
+                .orElseThrow(() -> new EntityNotFoundException("Telefon bulunamadı: " + telefonId));
+
+        // Update associated customer if musteriId is provided and different
+        if (musteriId != null &&
+                (existing.getMusteri() == null ||
+                        !musteriId.equals(existing.getMusteri().getId()))) {
+
+            Musteri musteri = musteriRepository.findById(musteriId)
+                    .orElseThrow(() -> new RuntimeException("Musteri bulunamadı"));
+            existing.setMusteri(musteri);
+        }
+        if(telefonDTO.getIletisimTelefonuMu()!=null)
         existing.setIletisimTelefonuMu(telefonDTO.getIletisimTelefonuMu());
+
+        if(telefonDTO.getTelefonTipi()!=null)
         existing.setTelefonTipi(telefonDTO.getTelefonTipi());
+
+        if(telefonDTO.getUlkeKodu()!=null)
         existing.setUlkeKodu(telefonDTO.getUlkeKodu());
+
+        if(telefonDTO.getAlanKodu()!=null)
         existing.setAlanKodu(telefonDTO.getAlanKodu());
+
+        if(telefonDTO.getTelefonNumarasi()!=null)
         existing.setTelefonNumarasi(telefonDTO.getTelefonNumarasi());
 
         return MusteriTelefonMapper.toDTO(telefonRepository.save(existing));
     }
 
     //  Telefon silme
-    public void deleteTelefon(Long telefonId) {
+    public void deleteTelefon(String musterId, Long telefonId) {
+        if(!musteriRepository.existsById(musterId)){
+            throw new EntityNotFoundException("Müşteri bulunamadı: " + musterId);
+        }
         if (!telefonRepository.existsById(telefonId)) {
             throw new EntityNotFoundException("Telefon bulunamadı: " + telefonId);
         }
+
         telefonRepository.deleteById(telefonId);
     }
 

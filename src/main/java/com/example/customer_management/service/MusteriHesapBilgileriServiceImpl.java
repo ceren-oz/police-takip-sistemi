@@ -2,11 +2,13 @@ package com.example.customer_management.service;
 
 import com.example.customer_management.domain.Musteri;
 import com.example.customer_management.domain.MusteriHesapBilgileri;
+import com.example.customer_management.domain.MusteriTelefon;
 import com.example.customer_management.mapper.MusteriHesapBilgileriDTO;
 import com.example.customer_management.mapper.MusteriHesapBilgileriMapper;
 import com.example.customer_management.repository.MusteriHesapBilgileriRepository;
 import com.example.customer_management.repository.MusteriRepository;
 import com.example.customer_management.service.MusteriHesapBilgileriService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,11 +31,11 @@ public class MusteriHesapBilgileriServiceImpl implements MusteriHesapBilgileriSe
     }
 
     @Override
-    public MusteriHesapBilgileriDTO create (MusteriHesapBilgileriDTO dto){
+    public MusteriHesapBilgileriDTO create (String musteriId, MusteriHesapBilgileriDTO dto){
         validate(dto);
         //amaç: hesap bilgisi kaydı eklemeden önce, gerçekten böyle bir müşteri var mı emin olmak.
-        //DTO içindeki musteriId kullanılarak musteriRepository üzerinden veritabanında müşteri aranıyor.
-        Musteri musteri = musteriRepository.findById(dto.getMusteriId())
+        // musteriId kullanılarak musteriRepository üzerinden veritabanında müşteri aranıyor.
+        Musteri musteri = musteriRepository.findById(musteriId)
                 .orElseThrow(() -> new RuntimeException("Müşteri bulunamadı"));
 
         //DTO (Yani hesap bilgileri) ve müşteri nesnesi kullanılarak entity oluşturuluyor.
@@ -55,29 +57,52 @@ public class MusteriHesapBilgileriServiceImpl implements MusteriHesapBilgileriSe
     //
     //dto → Kullanıcının gönderdiği yeni bilgiler.
     @Override
-    public MusteriHesapBilgileriDTO update (Long id, MusteriHesapBilgileriDTO dto){
+    public MusteriHesapBilgileriDTO update (String musteriId, Long id, MusteriHesapBilgileriDTO dto){
         validate(dto); //Eğer kurallara uymuyorsa burada hata fırlatılır, işlem başlamadan durur.
+
+        validate(dto);
+
+        Musteri musteri = musteriRepository.findById(musteriId)
+                .orElseThrow(() -> new RuntimeException("Müşteri bulunamadı"));
 
 
         MusteriHesapBilgileri existing= hesapBilgileriRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Hesap bilgisi bulunamadı"));
 
-        existing.setBankaAdi(dto.getBankaAdi());
-        existing.setBankaSubeAdi(dto.getBankaSubeAdi());
-        existing.setBankaSubeKodu(dto.getBankaSubeKodu());
-        existing.setIbanNumarasi(dto.getIbanNumarasi());
+        if(musteriId != null &&!musteriId.equals(existing.getMusteri().getId())){
+            Musteri Musteri = musteriRepository.findById(musteriId)
+                    .orElseThrow(() -> new RuntimeException("Musteri bulunamadı"));
+            existing.setMusteri(musteri);
+        }
+        if(dto.getBankaAdi()!=null)
+            existing.setBankaAdi(dto.getBankaAdi());
+        if(dto.getBankaSubeAdi()!=null)
+            existing.setBankaSubeAdi(dto.getBankaSubeAdi());
+        if(dto.getBankaSubeKodu()!=null)
+            existing.setBankaSubeAdi(dto.getBankaSubeKodu());
+        if(dto.getIbanNumarasi()!=null)
+            existing.setIbanNumarasi(dto.getIbanNumarasi());
 
         return MusteriHesapBilgileriMapper.toDTO(hesapBilgileriRepository.save(existing));
     }
     @Override
-    public void delete(Long id) {
-        hesapBilgileriRepository.deleteById(id); // ✅ nesne üzerinden çağrı
+    public void delete(String musteriId, Long id) {
+        if(!musteriRepository.existsById(musteriId)){
+            throw new EntityNotFoundException("Müşteri bulunamadı: " + musteriId);
+        }
+        if (!hesapBilgileriRepository.existsById(id)) {
+            throw new EntityNotFoundException("Hesap bulunamadı: " + id);
+        }
+        hesapBilgileriRepository.deleteById(id);
     }
 
 
 
     @Override
-    public List<MusteriHesapBilgileriDTO> getAll() {
+    public List<MusteriHesapBilgileriDTO> getAll(String musteriId) {
+        Musteri musteri = musteriRepository.findById(musteriId)
+                .orElseThrow(() -> new EntityNotFoundException("Müşteri bulunamadı: " + musteriId));
+
         return hesapBilgileriRepository.findAll()
                 .stream()
                 .map(MusteriHesapBilgileriMapper::toDTO)
@@ -86,7 +111,16 @@ public class MusteriHesapBilgileriServiceImpl implements MusteriHesapBilgileriSe
 
 
     @Override
-    public MusteriHesapBilgileriDTO getById(Long id) {
+    public MusteriHesapBilgileriDTO getById(String musteriId, Long id) {
+        Musteri musteri = musteriRepository.findById(musteriId)
+                .orElseThrow(() -> new EntityNotFoundException("Müşteri bulunamadı: " + musteriId));
+        MusteriHesapBilgileri existing = hesapBilgileriRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Telefon bulunamadı: " + id));
+
+        if (!existing.getMusteri().getId().equals(musteri.getId())) {
+            throw new RuntimeException("This address does not belong to the specified customer");
+        }
+
         return hesapBilgileriRepository.findById(id)
                 .map(MusteriHesapBilgileriMapper::toDTO)
                 .orElseThrow(() -> new RuntimeException("Hesap bilgisi bulunamadı"));
