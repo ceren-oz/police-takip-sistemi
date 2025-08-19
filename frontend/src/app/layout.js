@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,7 +29,18 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+        <nav className="pts-navbar">
+          <div className="container d-flex justify-content-between align-items-center py-2">
+            <Link className="brand" href="/">Poliçe Takip Sistemi</Link>
+            <div className="nav-links d-flex gap-2">
+              <Link href="/customers">Müşteriler</Link>
+              <Link href="/general-information">Genel Bilgiler</Link>
+            </div>
+          </div>
+        </nav>
+        <main className="container py-3">
+          {children}
+        </main>
       </body>
     </html>
   );

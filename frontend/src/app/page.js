@@ -1,5 +1,5 @@
 // src/app/general-information/page.js
-import GeneralInformationForm from "../components/GeneralInformationForm";
+import GeneralInformationForm from "./components/GeneralInformationForm";
 
 export default function Page() {
   return (
