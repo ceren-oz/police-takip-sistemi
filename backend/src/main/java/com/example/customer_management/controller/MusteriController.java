@@ -14,6 +14,7 @@ import java.util.List;
 //Postman'den test edildi -> get ve post çalışıyor
 @RestController
 @RequestMapping("/api/musteri")
+@CrossOrigin(origins = "http://localhost:3000")
 public class MusteriController {
 
     private MusteriService musteriService;
