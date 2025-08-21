@@ -2,6 +2,10 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import AddressSection from "../../components/AddressSection";
+import EmailSection from "../../components/EmailSection";
+import PhoneSection from "../../components/PhoneSection";
+import AccountInfoSection from "../../components/AccountInfoSection";
 
 export default function CustomerDetailPage() {
 	const params = useParams();
@@ -12,36 +16,6 @@ export default function CustomerDetailPage() {
 	const [errorMessage, setErrorMessage] = useState("");
 	const [data, setData] = useState(null);
 
-	const [addresses, setAddresses] = useState([]);
-	const [addressesLoading, setAddressesLoading] = useState(false);
-	const [addressesError, setAddressesError] = useState("");
-
-	const [creating, setCreating] = useState(false);
-	const [createError, setCreateError] = useState("");
-
-	const [editingId, setEditingId] = useState(null);
-	const [editForm, setEditForm] = useState(null);
-	const [updating, setUpdating] = useState(false);
-	const [updateError, setUpdateError] = useState("");
-	const [deletingId, setDeletingId] = useState(null);
-	const [deleteError, setDeleteError] = useState("");
-
-	const CITY_OPTIONS = ["ISTANBUL"];
-	const DISTRICTS_BY_CITY = {
-		ISTANBUL: ["USKUDAR"],
-	};
-
-	const [form, setForm] = useState({
-		yazismaAdresiMi: false,
-		adresKisaAdi: "",
-		ulke: "TURKIYE",
-		il: "ISTANBUL",
-		ilce: "USKUDAR",
-		cadde: "",
-		sokak: "",
-		apartmanAdi: "",
-		daireNo: "",
-	});
 
 	function getCustomerKind(record) {
 		if (!record || typeof record !== "object") return null;
@@ -67,8 +41,8 @@ export default function CustomerDetailPage() {
 		if (kind === "GERCEK") {
 			const fields = [
 				["TC Number", ["tcNumber", "tcNo"]],
-				["First Name", ["firstName", "adi"]],
-				["Last Name", ["lastName", "soyadi"]],
+				["First Name", ["firstName", "ad"]],
+				["Last Name", ["lastName", "soyad"]],
 				["Gender", ["gender", "cinsiyet"]],
 				["Mother's Name", ["motherName", "anneAdi"]],
 				["Father's Name", ["fatherName", "babaAdi"]],
@@ -78,8 +52,8 @@ export default function CustomerDetailPage() {
 				["Education Status", ["educationStatus", "egitimDurumu"]],
 				["Nationality", ["nationality", "uyruk"]],
 				["Country", ["country", "ulke"]],
-				["Uses SGK?", ["usesSGK", "sgk", "usesSgk"]],
-				["Is Special Customer?", ["specialCustomer", "ozelMusteri"]],
+				["Uses SGK?", ["usesSGK", "sgk", "sgkKullaniyorMu"]],
+				["Is Special Customer?", ["specialCustomer", "ozelMusteriMi"]],
 			];
 			return fields
 				.map(([label, keys]) => {
@@ -92,13 +66,13 @@ export default function CustomerDetailPage() {
 		if (kind === "TUZEL") {
 			const fields = [
 				["Vergi No", ["taxNumber", "vergiNo"]],
-				["Şirket Adı", ["companyName", "unvan", "company"]],
+				["Şirket Adı", ["companyName", "sirketUnvani", "company"]],
 				["Şirket Türü", ["companyType", "sirketTuru"]],
 				["Sektör", ["businessSector", "sektor"]],
 				["Nationality", ["nationality", "uyruk"]],
 				["Country", ["country", "ulke"]],
-				["Uses SGK?", ["usesSGK", "sgk", "usesSgk"]],
-				["Is Special Customer?", ["specialCustomer", "ozelMusteri"]],
+				["Uses SGK?", ["usesSGK", "sgk", "sgkKullaniyorMu"]],
+				["Is Special Customer?", ["specialCustomer", "ozelMusteriMi"]],
 			];
 			return fields
 				.map(([label, keys]) => {
@@ -139,139 +113,8 @@ export default function CustomerDetailPage() {
 	}, [data, id]);
 
 	useEffect(() => {
-		async function loadAddresses() {
-			if (!musteriIdForAddress) return;
-			setAddressesLoading(true);
-			setAddressesError("");
-			try {
-				const url = `/api/musteri/${encodeURIComponent(
-					musteriIdForAddress
-				)}/adres`;
-				const res = await fetch(url, { cache: "no-store" });
-				if (res.status === 204) {
-					setAddresses([]);
-					return;
-				}
-				if (!res.ok) throw new Error("Adresler getirilemedi.");
-				const list = await res.json();
-				setAddresses(Array.isArray(list) ? list : []);
-			} catch (err) {
-				setAddressesError(err?.message || "Adres yükleme hatası");
-			} finally {
-				setAddressesLoading(false);
-			}
-		}
-		loadAddresses();
+		// Address lifecycle moved into AddressSection
 	}, [musteriIdForAddress]);
-
-	function handleCityChange(nextCity) {
-		const districts = DISTRICTS_BY_CITY[nextCity] || [];
-		setForm((prev) => ({ ...prev, il: nextCity, ilce: districts[0] || "" }));
-	}
-
-	async function handleCreateAddress(e) {
-		e?.preventDefault?.();
-		if (!musteriIdForAddress) return;
-		setCreateError("");
-		setCreating(true);
-		try {
-			const url = `/api/musteri/${encodeURIComponent(
-				musteriIdForAddress
-			)}/adres`;
-			const res = await fetch(url, {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(form),
-			});
-			if (!res.ok) throw new Error("Adres eklenemedi.");
-			const created = await res.json();
-			setAddresses((prev) => [created, ...prev]);
-			setForm({
-				yazismaAdresiMi: false,
-				adresKisaAdi: "",
-				ulke: "TURKIYE",
-				il: "ISTANBUL",
-				ilce: "USKUDAR",
-				cadde: "",
-				sokak: "",
-				apartmanAdi: "",
-				daireNo: "",
-			});
-		} catch (err) {
-			setCreateError(err?.message || "Kayıt sırasında hata oluştu");
-		} finally {
-			setCreating(false);
-		}
-	}
-
-	function beginEdit(addr) {
-		const initial = {
-			yazismaAdresiMi: !!addr.yazismaAdresiMi,
-			adresKisaAdi: addr.adresKisaAdi ?? "",
-			ulke: addr.ulke ?? "TURKIYE",
-			il: addr.il ?? "ISTANBUL",
-			ilce: addr.ilce ?? "USKUDAR",
-			cadde: addr.cadde ?? "",
-			sokak: addr.sokak ?? "",
-			apartmanAdi: addr.apartmanAdi ?? "",
-			daireNo: addr.daireNo ?? "",
-		};
-		setEditingId(addr?.id ?? null);
-		setEditForm(initial);
-		setUpdateError("");
-	}
-
-	function cancelEdit() {
-		setEditingId(null);
-		setEditForm(null);
-		setUpdateError("");
-	}
-
-	async function handleUpdateAddress(e) {
-		e?.preventDefault?.();
-		if (!musteriIdForAddress || !editingId || !editForm) return;
-		setUpdating(true);
-		setUpdateError("");
-		try {
-			const url = `/api/musteri/${encodeURIComponent(
-				musteriIdForAddress
-			)}/adres/${encodeURIComponent(editingId)}`;
-			const res = await fetch(url, {
-				method: "PUT",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(editForm),
-			});
-			if (!res.ok) throw new Error("Adres güncellenemedi.");
-			const updated = await res.json();
-			setAddresses((prev) =>
-				prev.map((a) => (String(a?.id) === String(updated?.id) ? updated : a))
-			);
-			cancelEdit();
-		} catch (err) {
-			setUpdateError(err?.message || "Güncelleme sırasında hata oluştu");
-		} finally {
-			setUpdating(false);
-		}
-	}
-
-	async function handleDeleteAddress(addrId) {
-		if (!musteriIdForAddress || !addrId) return;
-		setDeleteError("");
-		setDeletingId(addrId);
-		try {
-			const url = `/api/musteri/${encodeURIComponent(
-				musteriIdForAddress
-			)}/adres/${encodeURIComponent(addrId)}`;
-			const res = await fetch(url, { method: "DELETE" });
-			if (!res.ok && res.status !== 204) throw new Error("Adres silinemedi.");
-			setAddresses((prev) => prev.filter((a) => String(a?.id) !== String(addrId)));
-			if (String(editingId) === String(addrId)) cancelEdit();
-		} catch (err) {
-			setDeleteError(err?.message || "Silme sırasında hata oluştu");
-		} finally {
-			setDeletingId(null);
-		}
-	}
 
 	return (
 		<div style={{ maxWidth: 960, margin: "0 auto", padding: 24 }}>
@@ -319,6 +162,15 @@ export default function CustomerDetailPage() {
 			) : null}
 
 			{musteriIdForAddress ? (
+				<>
+					<AddressSection musteriId={musteriIdForAddress} />
+					<EmailSection musteriId={musteriIdForAddress} />
+					<PhoneSection musteriId={musteriIdForAddress} />
+					<AccountInfoSection musteriId={musteriIdForAddress} />
+				</>
+			) : null}
+
+			{false && musteriIdForAddress ? (
 				<div style={{ marginTop: 24 }}>
 					<h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 12 }}>Adres Ekle</h3>
 					<form

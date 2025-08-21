@@ -11,7 +11,7 @@ public class MusteriEpostaDTO {
     private String musteriId;
 
     @NotBlank(message = "Email cannot be empty")
-    @EmailConstraint
+    /*@EmailConstraint*/
     private String epostaAdresi;
 
     private Boolean etkIzniVarMi;

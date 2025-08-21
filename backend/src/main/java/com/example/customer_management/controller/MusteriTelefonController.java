@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController // Controller olduğunu belirtir
-@RequestMapping("/api/musteriler/{musteriId}/telefonlar") // URL prefix
+@RequestMapping("/api/musteri/{musteriId}/telefonlar") // URL prefix
+@CrossOrigin(origins = "http://localhost:3000")
 public class MusteriTelefonController {
 
     private final MusteriTelefonService telefonService;

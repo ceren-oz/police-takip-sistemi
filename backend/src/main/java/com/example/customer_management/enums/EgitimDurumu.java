@@ -4,5 +4,7 @@ package com.example.customer_management.enums;
 public enum EgitimDurumu {
     ILKOGRETIM,
     LISE,
-    LISANS
+    ONLISANS,
+    LISANS,
+    LISANSUSTU
 }

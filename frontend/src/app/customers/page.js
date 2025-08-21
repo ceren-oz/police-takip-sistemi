@@ -37,7 +37,7 @@ export default function CustomerSearchPage() {
 		if (explicit && String(explicit).toUpperCase() === "GERCEK") return "GERCEK";
 		if (explicit && String(explicit).toUpperCase() === "TUZEL") return "TUZEL";
 		if (record.taxNumber || record.companyName || record.unvan || record.vergiNo) return "TUZEL";
-		if (record.tcNo || record.tcNumber || record.firstName || record.lastName || record.adi || record.soyadi) return "GERCEK";
+		if (record.tcNo || record.tcNumber || record.firstName || record.lastName || record.ad || record.soyad) return "GERCEK";
 		return null;
 	}
 
@@ -57,8 +57,8 @@ export default function CustomerSearchPage() {
 		if (kind === "GERCEK") {
 			const fields = [
 				["TC Number", ["tcNumber", "tcNo"]],
-				["First Name", ["firstName", "adi"]],
-				["Last Name", ["lastName", "soyadi"]],
+				["First Name", ["firstName", "ad"]],
+				["Last Name", ["lastName", "soyad"]],
 				["Gender", ["gender", "cinsiyet"]],
 				["Mother's Name", ["motherName", "anneAdi"]],
 				["Father's Name", ["fatherName", "babaAdi"]],
@@ -69,8 +69,8 @@ export default function CustomerSearchPage() {
 				// Common fields
 				["Nationality", ["nationality", "uyruk"]],
 				["Country", ["country", "ulke"]],
-				["Uses SGK?", ["usesSGK", "sgk", "usesSgk"]],
-				["Is Special Customer?", ["specialCustomer", "ozelMusteri"]],
+				["Uses SGK?", ["usesSGK", "sgk", "sgkKullaniyorMu"]],
+				["Is Special Customer?", ["specialCustomer", "ozelMusteriMi"]],
 			];
 			return fields
 				.map(([label, keys]) => {
@@ -83,14 +83,14 @@ export default function CustomerSearchPage() {
 		if (kind === "TUZEL") {
 			const fields = [
 				["Vergi No", ["taxNumber", "vergiNo"]],
-				["Şirket Adı", ["companyName", "unvan", "company"]],
+				["Şirket Adı", ["companyName", "sirketUnvani", "company"]],
 				["Şirket Türü", ["companyType", "sirketTuru"]],
 				["Sektör", ["businessSector", "sektor"]],
 				// Common fields
 				["Nationality", ["nationality", "uyruk"]],
 				["Country", ["country", "ulke"]],
-				["Uses SGK?", ["usesSGK", "sgk", "usesSgk"]],
-				["Is Special Customer?", ["specialCustomer", "ozelMusteri"]],
+				["Uses SGK?", ["usesSGK", "sgk", "sgkKullaniyorMu"]],
+				["Is Special Customer?", ["specialCustomer", "ozelMusteriMi"]],
 			];
 			return fields
 				.map(([label, keys]) => {

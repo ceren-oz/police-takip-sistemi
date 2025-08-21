@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/musteri/{musteriId}/eposta")
+@CrossOrigin(origins = "http://localhost:3000")
 public class MusteriEpostaController {
 
     private MusteriEpostaService musteriEpostaService;
@@ -23,7 +24,7 @@ public class MusteriEpostaController {
 
     @PostMapping
     public ResponseEntity<MusteriEpostaDTO> createEposta(@PathVariable String musteriId,
-                                                         @Valid @RequestBody MusteriEpostaDTO epostaDTO) {
+                                                        /*@Valid*/ @RequestBody MusteriEpostaDTO epostaDTO) {
         MusteriEpostaDTO created = musteriEpostaService.createMusteriEposta(musteriId,epostaDTO);
         return ResponseEntity.ok(created);
     }
@@ -32,7 +33,7 @@ public class MusteriEpostaController {
     public ResponseEntity<MusteriEpostaDTO> updateMusteriEposta(
             @PathVariable String musteriId,
             @PathVariable Long id,
-            @Valid @RequestBody MusteriEpostaDTO epostaDTO) {
+           /*@Valid*/ @RequestBody MusteriEpostaDTO epostaDTO) {
 
         MusteriEpostaDTO updated = musteriEpostaService.updateMusteriEposta(musteriId,id, epostaDTO);
         return ResponseEntity.ok(updated);

@@ -8,7 +8,8 @@ import java.util.List;
 
 
 @RestController // Controller olduğunu belirtir
-@RequestMapping("/api/musteriler/{musteriId}/hesap-bilgileri") // URL prefix
+@RequestMapping("/api/musteri/{musteriId}/hesap-bilgileri") // URL prefix
+@CrossOrigin(origins = "http://localhost:3000")
 //Akış:
 //Client (frontend/Postman) → Controller → Service → Repository → DB → Service → Controller → Client
 public class MusteriHesapBilgileriController {
