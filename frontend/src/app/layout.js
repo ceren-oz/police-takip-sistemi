@@ -38,9 +38,10 @@ export default function RootLayout({ children }) {
             </div>
           </div>
         </nav>
-        <main className="container py-3">
+        <main className="container" style={{ paddingTop: "70px" }}>
           {children}
         </main>
+
       </body>
     </html>
   );

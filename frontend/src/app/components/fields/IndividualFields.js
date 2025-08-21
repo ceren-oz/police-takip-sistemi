@@ -71,7 +71,7 @@ const IndividualFields = ({ formData, onChange, errors }) => {
         label="Education Status"
         value={formData.educationStatus || ""}
         onChange={onChange}
-        options={["ILKOGRETIM", "LISE", "LISANS"]}
+        options={["ILKOGRETIM", "LISE", "ONLISANS","LISANS", "LISANSUSTU"]}
       />
     </>
   );

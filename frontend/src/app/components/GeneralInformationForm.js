@@ -117,9 +117,10 @@ const GeneralInformationForm = () => {
           );
         }
   
-        const result = await response.json();
-        alert(`Customer saved successfully! Code: ${result.customerCode}`);
-        console.log("Backend response:", result);
+        const data = await response.json();
+        const customerId = data.id ?? data.musteriId ?? data.musteri?.id ?? "N/A";
+        alert(`Customer saved successfully! Code: ${customerId}`);
+        console.log("Backend response:", data);
         // Clear the form fields after successful save
         setFormData({});
         setErrors({});
