@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
-//const BACKEND_BASE = "http://localhost:8080";
+const BACKEND_BASE = "http://localhost:8080";
 
 export default function CityDistrictSelector({
   city,
