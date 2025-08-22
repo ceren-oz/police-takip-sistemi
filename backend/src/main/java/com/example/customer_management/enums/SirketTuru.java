@@ -2,7 +2,14 @@ package com.example.customer_management.enums;
 
 //tam değil
 public enum SirketTuru {
-    ANONIM,
+    ADİ,
+    KOLLEKTİF,
+    ADİ_KOMANDİT,
+    ESHAMLI_KOMANDİT,
     LIMITED,
-    VAKIF
+    ANONIM,
+    KOOPERATİF,
+    VAKIF,
+    TAO,
+    DİĞER
 }

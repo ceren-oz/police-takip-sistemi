@@ -22,34 +22,34 @@ const GeneralInformationForm = () => {
 
     if (customerType === "GERCEK") {
       if (!/^\d{11}$/.test(formData.tcNumber || "")) {
-        newErrors.tcNumber = "TC Number must be 11 digits.";
+        newErrors.tcNumber = "TC Numarası 11 haneli olmalıdır.";
       }
       if (!/^[a-zA-ZÇçĞğİıÖöŞşÜü]+$/.test(formData.firstName || "")) {
-        newErrors.firstName = "First name must contain only letters.";
+        newErrors.firstName = "Ad yalnızca harflerden oluşmalıdır.";
       }
       if (!/^[a-zA-ZÇçĞğİıÖöŞşÜü]+$/.test(formData.lastName || "")) {
-        newErrors.lastName = "Last name must contain only letters.";
+        newErrors.lastName = "Soyad yalnızca harflerden oluşmalıdır.";
       }
       if (!/(^ERKEK$|^KADIN$)/.test((formData.gender || "").toUpperCase())) {
-        newErrors.gender = "Gender is required.";
+        newErrors.gender = "Cinsiyet seçilmedi.";
       }
       if (!/^\d{4}-\d{2}-\d{2}$/.test(formData.dateOfBirth || "")) {
-        newErrors.dateOfBirth = "Date of birth is required (YYYY-MM-DD).";
+        newErrors.dateOfBirth = "Doğum tarihi zorunlu alandır (YYYY-MM-DD).";
       }
     }
 
     if (customerType === "TUZEL") {
       if (!/^\d+$/.test(formData.taxNumber || "")) {
-        newErrors.taxNumber = "Tax number must contain only digits.";
+        newErrors.taxNumber = "Vergi numarası yalnızca rakamlardan oluşmalıdır.";
       }
       if (!formData.companyName) {
-        newErrors.companyName = "Company name is required.";
+        newErrors.companyName = "Şirket Unvanı zorunlu alandır.";
       }
       if (!(formData.companyType || "").trim()) {
-        newErrors.companyType = "Company type is required.";
+        newErrors.companyType = "Şirket türü seçilmedi.";
       }
       if (!(formData.businessSector || "").trim()) {
-        newErrors.businessSector = "Business sector is required.";
+        newErrors.businessSector = "Sektör seçilmedi.";
       }
     }
 

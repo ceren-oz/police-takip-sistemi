@@ -7,31 +7,31 @@ const CommonFields = ({ formData, onChange }) => {
     <>
       <SelectInput
         name="nationality"
-        label="Nationality"
+        label="Uyruk"
         value={formData.nationality || "TC"}
         onChange={onChange}
         options={["TC"]}
       />
       <SelectInput
         name="country"
-        label="Country"
+        label="Ülke"
         value={formData.country || "TURKIYE"}
         onChange={onChange}
         options={["TURKIYE"]}
       />
       <RadioGroup
         name="usesSGK"
-        label="Uses SGK?"
+        label="SGK Kullanıyor Mu?"
         value={formData.usesSGK || "No"}
         onChange={onChange}
-        options={["Yes", "No"]}
+        options={["Evet", "Hayır"]}
       />
       <RadioGroup
         name="specialCustomer"
-        label="Is Special Customer?"
+        label="Özel Müşteri Mi?"
         value={formData.specialCustomer || "No"}
         onChange={onChange}
-        options={["Yes", "No"]}
+        options={["Evet", "Hayır"]}
       />
     </>
   );

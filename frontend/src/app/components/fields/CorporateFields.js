@@ -8,31 +8,75 @@ const CorporateFields = ({ formData, onChange, errors }) => {
     <>
       <TextInput
         name="taxNumber"
-        label="Tax Number"
+        label="Vergi No"
         value={formData.taxNumber || ""}
         onChange={onChange}
         error={errors.taxNumber}
       />
       <TextInput
         name="companyName"
-        label="Company Name"
+        label="Şirket Unvanı"
         value={formData.companyName || ""}
         onChange={onChange}
         error={errors.companyName}
       />
       <SelectInput
         name="companyType"
-        label="Company Type"
+        label="Şirket Türü"
         value={formData.companyType || ""}
         onChange={onChange}
-        options={["ANONIM", "LIMITED", "VAKIF"]}
+        options={[    
+          "ADİ",
+          "KOLLEKTİF",
+          "ADİ_KOMANDİT",
+          "ESHAMLI_KOMANDİT",
+          "LIMITED", 
+          "ANONIM",
+          "KOOPERATİF",
+          "VAKIF",
+          "TAO",
+          "DİĞER"
+      ]}
       />
       <SelectInput
         name="businessSector"
-        label="Business Sector"
+        label="Sektör"
         value={formData.businessSector || ""}
         onChange={onChange}
-        options={["BILISIM", "FINANS", "GIDA"]}
+        options={[    
+          "AĞIR_SANAYİ",
+          "BANKACILIK",
+          "BİLİŞİM",
+          "ENERJİ",
+          "EĞİTİM",
+          "GIDA",
+          "GAYRİMENKUL",
+          "GÜVENLİK_HİZMETLERİ",
+          "HAVACILIK",
+          "HAYVANCILIK",
+          "OTELCİLİK",
+          "İKİNCİ_EL_TİCARET",
+          "İLK_SEKTÖR",
+          "İKİNCİ_SEKTÖR",
+          "İLETİŞİM",
+          "İNŞAAT",
+          "KAMU_HİZMETİ",
+          "KİMYA",
+          "KOZMETİK_TEMİZLİK",
+          "LOJİSTİK",
+          "MAKİNE_EKİPMAN",
+          "MEDYA",
+          "OTOMOTİV",
+          "PERAKENDE",
+          "SAĞLIK",
+          "SAVUNMA_SANAYİİ",
+          "SİGORTACILIK",
+          "TEKNOLOJİ",
+          "TEKSTİL_GİYİM",
+          "TURİZM",
+          "ULAŞTIRMA",
+          "VETERİNERLİK"
+      ]}
       />
     </>
   );

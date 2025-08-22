@@ -8,70 +8,101 @@ const IndividualFields = ({ formData, onChange, errors }) => {
     <>
       <TextInput
         name="tcNumber"
-        label="TC Number"
+        label="TC No"
         value={formData.tcNumber || ""}
         onChange={onChange}
         error={errors.tcNumber}
       />
       <TextInput
         name="firstName"
-        label="First Name"
+        label="Ad"
         value={formData.firstName || ""}
         onChange={onChange}
         error={errors.firstName}
       />
       <TextInput
         name="lastName"
-        label="Last Name"
+        label="Soyad"
         value={formData.lastName || ""}
         onChange={onChange}
         error={errors.lastName}
       />
       <SelectInput
         name="gender"
-        label="Gender"
+        label="Cinsiyet"
         value={formData.gender || ""}
         onChange={onChange}
         options={["ERKEK", "KADIN"]}
       />
       <TextInput
         name="motherName"
-        label="Mother's Name"
+        label="Anne Adı"
         value={formData.motherName || ""}
         onChange={onChange}
       />
       <TextInput
         name="fatherName"
-        label="Father's Name"
+        label="Baba Adı"
         value={formData.fatherName || ""}
         onChange={onChange}
       />
       <TextInput
         type="date"
         name="dateOfBirth"
-        label="Date of Birth"
+        label="Doğum Tarihi"
         value={formData.dateOfBirth || ""}
         onChange={onChange}
       />
       <TextInput
         name="placeOfBirth"
-        label="Place of Birth"
+        label="Doğum Yeri"
         value={formData.placeOfBirth || ""}
         onChange={onChange}
       />
       <SelectInput
         name="job"
-        label="Job"
+        label="Meslek"
         value={formData.job || ""}
         onChange={onChange}
-        options={["AVUKAT", "BANKACI"]}
+        options={[    
+          "AKADEMİSYEN",
+          "AŞÇI",
+          "AVUKAT",
+          "BANKACI",
+          "ÇİFTÇİ",
+          "DİŞ_HEKİMİ",
+          "DOKTOR",
+          "ECZACI",
+          "ELEKTRİKÇİ",
+          "GAZETECİ",
+          "HAKİM",
+          "HEMŞİRE",
+          "İKTİSATÇI",
+          "KAPTAN",
+          "KUAFÖR",
+          "MİMAR",
+          "MUHASEBECİ",
+          "MÜHENDİS",
+          "MÜZİSYEN",
+          "ÖĞRETMEN",
+          "POLİS",
+          "PSİKOLOG",
+          "SAVCI",
+          "SEKRETER",
+          "ŞOFÖR",
+          "TEKNİSYEN",
+          "TERZİ",
+          "VETERİNER",
+          "YAZILIMCI",
+          "YÖNETİCİ"
+      ]}
       />
       <SelectInput
         name="educationStatus"
-        label="Education Status"
+        label="Eğitim Durumu"
         value={formData.educationStatus || ""}
         onChange={onChange}
-        options={["ILKOGRETIM", "LISE", "ONLISANS","LISANS", "LISANSUSTU"]}
+        options={["İLKOĞRETIM", "LİSE", "ÖNLİSANS","LİSANS", "LİSANSÜSTÜ"]}
       />
     </>
   );
