@@ -119,7 +119,7 @@ const GeneralInformationForm = () => {
   
         const data = await response.json();
         const customerId = data.id ?? data.musteriId ?? data.musteri?.id ?? "N/A";
-        alert(`Customer saved successfully! Code: ${customerId}`);
+        alert(`Müşteri Kaydedildi! Kod: ${customerId}`);
         console.log("Backend response:", data);
         // Clear the form fields after successful save
         setFormData({});
@@ -129,7 +129,7 @@ const GeneralInformationForm = () => {
         // navigate("/contact-info");
       } catch (error) {
         console.error(error);
-        alert(`Error saving customer: ${error.message}`);
+        alert(`Müşteri kaydedilirken hata oluştu:: ${error.message}`);
       }
     }
   };
@@ -139,7 +139,7 @@ const GeneralInformationForm = () => {
     <form onSubmit={handleSubmit} className="general-info-form">
       {/* Customer Type Selection */}
       <div className="mb-4">
-        <label className="form-label d-block">Customer Type</label>
+        <label className="form-label d-block">Mükellef Türü</label>
         <div className="form-check form-check-inline">
           <input
             className="form-check-input"
