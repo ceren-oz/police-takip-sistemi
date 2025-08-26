@@ -9,7 +9,9 @@ import org.hibernate.annotations.GenericGenerator;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 //şimdilik test için
 @Entity
@@ -37,6 +39,8 @@ public class Musteri extends BaseEntity{
     @OneToMany(mappedBy = "musteri", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MusteriAdres> adresler = new ArrayList<>();
 
+    @OneToMany(mappedBy = "musteri", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Police> policeler = new HashSet<>();
 
 
     @OneToMany(mappedBy = "musteri", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -306,5 +310,13 @@ public class Musteri extends BaseEntity{
 
     public void setSgkKullaniyorMu(Boolean sgkKullaniyorMu) {
         this.sgkKullaniyorMu = sgkKullaniyorMu;
+    }
+
+    public Set<Police> getPoliceler() {
+        return policeler;
+    }
+
+    public void setPoliceler(Set<Police> policeler) {
+        this.policeler = policeler;
     }
 }
