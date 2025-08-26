@@ -22,34 +22,34 @@ const GeneralInformationForm = () => {
 
     if (customerType === "GERCEK") {
       if (!/^\d{11}$/.test(formData.tcNumber || "")) {
-        newErrors.tcNumber = "TC Number must be 11 digits.";
+        newErrors.tcNumber = "TC Numarası 11 haneli olmalıdır.";
       }
       if (!/^[a-zA-ZÇçĞğİıÖöŞşÜü]+$/.test(formData.firstName || "")) {
-        newErrors.firstName = "First name must contain only letters.";
+        newErrors.firstName = "Ad yalnızca harflerden oluşmalıdır.";
       }
       if (!/^[a-zA-ZÇçĞğİıÖöŞşÜü]+$/.test(formData.lastName || "")) {
-        newErrors.lastName = "Last name must contain only letters.";
+        newErrors.lastName = "Soyad yalnızca harflerden oluşmalıdır.";
       }
       if (!/(^ERKEK$|^KADIN$)/.test((formData.gender || "").toUpperCase())) {
-        newErrors.gender = "Gender is required.";
+        newErrors.gender = "Cinsiyet seçilmedi.";
       }
       if (!/^\d{4}-\d{2}-\d{2}$/.test(formData.dateOfBirth || "")) {
-        newErrors.dateOfBirth = "Date of birth is required (YYYY-MM-DD).";
+        newErrors.dateOfBirth = "Doğum tarihi zorunlu alandır (YYYY-MM-DD).";
       }
     }
 
     if (customerType === "TUZEL") {
       if (!/^\d+$/.test(formData.taxNumber || "")) {
-        newErrors.taxNumber = "Tax number must contain only digits.";
+        newErrors.taxNumber = "Vergi numarası yalnızca rakamlardan oluşmalıdır.";
       }
       if (!formData.companyName) {
-        newErrors.companyName = "Company name is required.";
+        newErrors.companyName = "Şirket Unvanı zorunlu alandır.";
       }
       if (!(formData.companyType || "").trim()) {
-        newErrors.companyType = "Company type is required.";
+        newErrors.companyType = "Şirket türü seçilmedi.";
       }
       if (!(formData.businessSector || "").trim()) {
-        newErrors.businessSector = "Business sector is required.";
+        newErrors.businessSector = "Sektör seçilmedi.";
       }
     }
 
@@ -117,9 +117,10 @@ const GeneralInformationForm = () => {
           );
         }
   
-        const result = await response.json();
-        alert(`Customer saved successfully! Code: ${result.customerCode}`);
-        console.log("Backend response:", result);
+        const data = await response.json();
+        const customerId = data.id ?? data.musteriId ?? data.musteri?.id ?? "N/A";
+        alert(`Müşteri Kaydedildi! Kod: ${customerId}`);
+        console.log("Backend response:", data);
         // Clear the form fields after successful save
         setFormData({});
         setErrors({});
@@ -128,7 +129,7 @@ const GeneralInformationForm = () => {
         // navigate("/contact-info");
       } catch (error) {
         console.error(error);
-        alert(`Error saving customer: ${error.message}`);
+        alert(`Müşteri kaydedilirken hata oluştu:: ${error.message}`);
       }
     }
   };
@@ -138,7 +139,7 @@ const GeneralInformationForm = () => {
     <form onSubmit={handleSubmit} className="general-info-form">
       {/* Customer Type Selection */}
       <div className="mb-4">
-        <label className="form-label d-block">Customer Type</label>
+        <label className="form-label d-block">Mükellef Türü</label>
         <div className="form-check form-check-inline">
           <input
             className="form-check-input"

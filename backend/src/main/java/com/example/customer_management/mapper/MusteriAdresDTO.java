@@ -15,9 +15,9 @@ public class MusteriAdresDTO {
 
     private String adresKisaAd;
 
-    private Il il;
+    private String il;
 
-    private Ilce ilce;
+    private String ilce;
 
     private String cadde;
 
@@ -57,7 +57,23 @@ public class MusteriAdresDTO {
         this.adresKisaAd = adresKisaAd;
     }
 
-    public Il getIl() {
+    public String getIl() {
+        return il;
+    }
+
+    public void setIl(String il) {
+        this.il = il;
+    }
+
+    public String getIlce() {
+        return ilce;
+    }
+
+    public void setIlce(String ilce) {
+        this.ilce = ilce;
+    }
+
+    /*public Il getIl() {
         return il;
     }
 
@@ -71,7 +87,7 @@ public class MusteriAdresDTO {
 
     public void setIlce(Ilce ilce) {
         this.ilce = ilce;
-    }
+    }*/
 
     public String getCadde() {
         return cadde;

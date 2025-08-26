@@ -2,6 +2,34 @@ package com.example.customer_management.enums;
 
 //tam değil
 public enum Meslek {
+    AKADEMİSYEN,
+    AŞÇI,
     AVUKAT,
-    BANKACI
+    BANKACI,
+    ÇİFTÇİ,
+    DİŞ_HEKİMİ,
+    DOKTOR,
+    ECZACI,
+    ELEKTRİKÇİ,
+    GAZETECİ,
+    HAKİM,
+    HEMŞİRE,
+    İKTİSATÇI,
+    KAPTAN,
+    KUAFÖR,
+    MİMAR,
+    MUHASEBECİ,
+    MÜHENDİS,
+    MÜZİSYEN,
+    ÖĞRETMEN,
+    POLİS,
+    PSİKOLOG,
+    SAVCI,
+    SEKRETER,
+    ŞOFÖR,
+    TEKNİSYEN,
+    TERZİ,
+    VETERİNER,
+    YAZILIMCI,
+    YÖNETİCİ
 }

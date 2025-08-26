@@ -18,7 +18,7 @@ export default function EmailSection({ musteriId }) {
 	const [deleteError, setDeleteError] = useState("");
 
 	const [form, setForm] = useState({
-		eposta: "",
+		epostaAdresi: "",
 		etkIzniVarMi: false,
 		varsayilanMi: false,
 	});
@@ -64,7 +64,7 @@ export default function EmailSection({ musteriId }) {
 			if (!res.ok) throw new Error("Eposta eklenemedi.");
 			const created = await res.json();
 			setItems((prev) => [created, ...prev]);
-			setForm({ eposta: "", etkIzniVarMi: false, varsayilanMi: false });
+			setForm({ epostaAdresi: "", etkIzniVarMi: false, varsayilanMi: false });
 		} catch (err) {
 			setCreateError(err?.message || "Kayıt sırasında hata oluştu");
 		} finally {
@@ -75,9 +75,9 @@ export default function EmailSection({ musteriId }) {
 	function beginEdit(item) {
 		setEditingId(item?.id ?? null);
 		setEditForm({
-			eposta: item?.eposta ?? item?.email ?? "",
-			etkIzniVarMi: !!(item?.etkIzniVarMi ?? item?.etkIzin),
-			varsayilanMi: !!(item?.varsayilanMi ?? item?.default),
+			epostaAdresi: item?.epostaAdresi ?? "",
+			etkIzniVarMi: !!item?.etkIzniVarMi,
+			varsayilanMi: !!item?.varsayilanMi,
 		});
 		setUpdateError("");
 	}
@@ -136,8 +136,8 @@ export default function EmailSection({ musteriId }) {
 					<label>E-posta Adresi</label>
 					<input 
 						type="text" 
-						value={form.eposta} 
-						onChange={(e) => setForm((p) => ({ ...p, eposta: e.target.value }))} 
+						value={form.epostaAdresi} 
+						onChange={(e) => setForm((p) => ({ ...p, epostaAdresi: e.target.value }))} 
 						style={{ width: "100%", padding: "8px 10px", border: "1px solid #d1d5db", borderRadius: 8 }} 
 					/>
 				</div>
@@ -228,8 +228,8 @@ export default function EmailSection({ musteriId }) {
 												<label>E-posta Adresi</label>
 												<input 
 													type="text" 
-													value={editForm?.eposta ?? ""} 
-													onChange={(e) => setEditForm((p) => ({ ...p, eposta: e.target.value }))} 
+													value={editForm?.epostaAdresi ?? ""} 
+													onChange={(e) => setEditForm((p) => ({ ...p, epostaAdresi: e.target.value }))} 
 													style={{ width: "100%", padding: "8px 10px", border: "1px solid #d1d5db", borderRadius: 8 }} 
 												/>
 											</div>

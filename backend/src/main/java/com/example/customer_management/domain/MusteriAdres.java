@@ -39,13 +39,13 @@ public class MusteriAdres extends BaseEntity{
     @Column(name = "ulke")
     private Ulke ulke;
 
-    @Enumerated(EnumType.STRING)
+    //@Enumerated(EnumType.STRING)
     @Column(name = "il")
-    private Il il;
+    private String il;
 
-    @Enumerated(EnumType.STRING)
+    //@Enumerated(EnumType.STRING)
     @Column(name = "ilce")
-    private Ilce ilce;
+    private String ilce;
 
     @Column(name = "cadde", length = 100)
     private String cadde;
@@ -110,7 +110,7 @@ public class MusteriAdres extends BaseEntity{
         this.ulke = ulke;
     }
 
-    public Il getIl() {
+    /*public Il getIl() {
         return il;
     }
 
@@ -123,6 +123,22 @@ public class MusteriAdres extends BaseEntity{
     }
 
     public void setIlce(Ilce ilce) {
+        this.ilce = ilce;
+    }*/
+
+    public String getIl() {
+        return il;
+    }
+
+    public void setIl(String il) {
+        this.il = il;
+    }
+
+    public String getIlce() {
+        return ilce;
+    }
+
+    public void setIlce(String ilce) {
         this.ilce = ilce;
     }
 

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import CityDistrictSelector from "./CityDistrictSelector";
 
 export default function AddressSection({ musteriId }) {
 	const [addresses, setAddresses] = useState([]);
@@ -17,27 +18,17 @@ export default function AddressSection({ musteriId }) {
 	const [deletingId, setDeletingId] = useState(null);
 	const [deleteError, setDeleteError] = useState("");
 
-	const CITY_OPTIONS = ["ISTANBUL"];
-	const DISTRICTS_BY_CITY = {
-		ISTANBUL: ["USKUDAR"],
-	};
-
 	const [form, setForm] = useState({
 		yazismaAdresiMi: false,
 		adresKisaAd: "",
 		ulke: "TURKIYE",
-		il: "ISTANBUL",
-		ilce: "USKUDAR",
+		il: "",
+		ilce: "",
 		cadde: "",
 		sokak: "",
 		apartmanAdi: "",
 		daireNo: "",
 	});
-
-	function handleCityChange(nextCity) {
-		const districts = DISTRICTS_BY_CITY[nextCity] || [];
-		setForm((prev) => ({ ...prev, il: nextCity, ilce: districts[0] || "" }));
-	}
 
 	async function load() {
 		if (!musteriId) return;
@@ -84,8 +75,8 @@ export default function AddressSection({ musteriId }) {
 				yazismaAdresiMi: false,
 				adresKisaAd: "",
 				ulke: "TURKIYE",
-				il: "ISTANBUL",
-				ilce: "USKUDAR",
+				il: "",
+				ilce: "",
 				cadde: "",
 				sokak: "",
 				apartmanAdi: "",
@@ -103,8 +94,8 @@ export default function AddressSection({ musteriId }) {
 			yazismaAdresiMi: !!addr.yazismaAdresiMi,
 			adresKisaAd: addr.adresKisaAd ?? "",
 			ulke: addr.ulke ?? "TURKIYE",
-			il: addr.il ?? "ISTANBUL",
-			ilce: addr.ilce ?? "USKUDAR",
+			il: addr.il ?? "",
+			ilce: addr.ilce ?? "",
 			cadde: addr.cadde ?? "",
 			sokak: addr.sokak ?? "",
 			apartmanAdi: addr.apartmanAdi ?? "",
@@ -220,30 +211,13 @@ export default function AddressSection({ musteriId }) {
 					</select>
 				</div>
 
-				<div>
-					<label>İl</label>
-					<select
-						value={form.il}
-						onChange={(e) => handleCityChange(e.target.value)}
-						style={{ width: "100%", padding: "8px 10px", border: "1px solid #d1d5db", borderRadius: 8 }}
-					>
-						{CITY_OPTIONS.map((c) => (
-							<option key={c} value={c}>{c}</option>
-						))}
-					</select>
-				</div>
-
-				<div>
-					<label>İlçe</label>
-					<select
-						value={form.ilce}
-						onChange={(e) => setForm((p) => ({ ...p, ilce: e.target.value }))}
-						style={{ width: "100%", padding: "8px 10px", border: "1px solid #d1d5db", borderRadius: 8 }}
-					>
-						{(DISTRICTS_BY_CITY[form.il] || []).map((d) => (
-							<option key={d} value={d}>{d}</option>
-						))}
-					</select>
+				<div style={{ gridColumn: "1 / span 2" }}>
+					<CityDistrictSelector
+						city={form.il}
+						district={form.ilce}
+						onCityChange={(val) => setForm((p) => ({ ...p, il: val, ilce: "" }))}
+						onDistrictChange={(val) => setForm((p) => ({ ...p, ilce: val }))}
+					/>
 				</div>
 
 				<div>
@@ -351,27 +325,13 @@ export default function AddressSection({ musteriId }) {
 												</select>
 											</div>
 
-											<div>
-												<label>İl</label>
-												<select value={editForm?.il ?? "ISTANBUL"} onChange={(e) => {
-													const nextCity = e.target.value;
-													const nextDistrict = (DISTRICTS_BY_CITY[nextCity] || [])[0] || "";
-													setEditForm((p) => ({ ...p, il: nextCity, ilce: nextDistrict }));
-												}} style={{ width: "100%,", padding: "8px 10px", border: "1px solid #d1d5db", borderRadius: 8 }}>
-
-													{CITY_OPTIONS.map((c) => (
-														<option key={c} value={c}>{c}</option>
-													))}
-												</select>
-											</div>
-
-											<div>
-												<label>İlçe</label>
-												<select value={editForm?.ilce ?? ""} onChange={(e) => setEditForm((p) => ({ ...p, ilce: e.target.value }))} style={{ width: "100%", padding: "8px 10px", border: "1px solid #d1d5db", borderRadius: 8 }}>
-													{(DISTRICTS_BY_CITY[editForm?.il || "ISTANBUL"] || []).map((d) => (
-														<option key={d} value={d}>{d}</option>
-													))}
-												</select>
+											<div style={{ gridColumn: "1 / span 2" }}>
+												<CityDistrictSelector
+													city={editForm?.il ?? ""}
+													district={editForm?.ilce ?? ""}
+													onCityChange={(val) => setEditForm((p) => ({ ...p, il: val, ilce: "" }))}
+													onDistrictChange={(val) => setEditForm((p) => ({ ...p, ilce: val }))}
+												/>
 											</div>
 
 											<div>
