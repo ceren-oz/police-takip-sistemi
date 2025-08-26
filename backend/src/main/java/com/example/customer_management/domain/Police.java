@@ -22,9 +22,18 @@ public class Police extends BaseEntity{
     @JoinColumn(name = "musteri_id")  // foreign key column
     private Musteri musteri;
 
-    /*@OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "arac_id", referencedColumnName = "aracId")
-    private AracBilgileri arac;*/
+    private AracBilgileri arac;
+
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(
+            name = "police_teminat",
+            joinColumns = @JoinColumn(name = "police_id"),
+            inverseJoinColumns = @JoinColumn(name = "teminat_id")
+    )
+    private Set<Teminat> teminatlar = new HashSet<>();
+
 
 
     @Column(name = "teklif_tarihi", nullable = false)

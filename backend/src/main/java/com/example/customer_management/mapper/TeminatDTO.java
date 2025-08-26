@@ -1,44 +1,19 @@
-package com.example.customer_management.domain;
+package com.example.customer_management.mapper;
 
-import jakarta.persistence.*;
 import com.example.customer_management.enums.TeminatTuru;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
-@Entity
-@Table(name = "police_teminat")
-public class Teminat {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long teminat_id;
-
-    @ManyToMany(mappedBy = "teminatlar")
-    private Set<Police> policeler = new HashSet<>();
-
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "teminat_turu", nullable = false)
+public class TeminatDTO {
+    private Long teminatId;
     private TeminatTuru teminatTuru;
-
-    @Column(name = "teminat_bedeli", precision = 12, scale = 2)
     private BigDecimal teminatBedeli;
-
-    @Column(name = "olusturulma_tarihi")
     private LocalDateTime olusturulmaTarihi;
-
-    @Column(name = "guncelleme_tarihi")
     private LocalDateTime guncellemeTarihi;
 
-
     // --- Getter - Setter ---
-    public Long getTeminatId() { return teminat_id; }
-    public void setTeminatId(Long teminat_id) { this.teminat_id = this.teminat_id; }
-
-    public Set<Police> getPolice() { return policeler; }
-    public void setPolice(Police police) { this.policeler = policeler; }
+    public Long getTeminatId() { return teminatId; }
+    public void setTeminatId(Long teminatId) { this.teminatId = teminatId; }
 
     public TeminatTuru getTeminatTuru() { return teminatTuru; }
     public void setTeminatTuru(TeminatTuru teminatTuru) { this.teminatTuru = teminatTuru; }
