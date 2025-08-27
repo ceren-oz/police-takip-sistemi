@@ -2,6 +2,7 @@ package com.example.customer_management.mapper;
 
 import com.example.customer_management.domain.EkHizmet;
 import com.example.customer_management.domain.Police;
+import com.example.customer_management.domain.Teminat;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -13,15 +14,15 @@ import java.util.stream.Collectors;
 public interface PoliceMapper {
 
     @Mapping(source = "musteri.id", target = "musteriId")
-    /*@Mapping(source = "arac.aracId", target = "aracId")*/
+    @Mapping(source = "arac.aracId", target = "aracId")
     @Mapping(source = "ekHizmetler", target = "ekHizmetlerIds", qualifiedByName = "mapEkHizmetToIds")
-    /*@Mapping(source = "teminatlar", target = "teminatlarIds", qualifiedByName = "mapTeminatToIds")*/
+    @Mapping(source = "teminatlar", target = "teminatlarIds", qualifiedByName = "mapTeminatToIds")
     PoliceDTO toDto(Police police);
 
     @Mapping(source = "musteriId", target = "musteri.id")
-    /*@Mapping(source = "aracId", target = "arac.aracId")*/
+    @Mapping(source = "aracId", target = "arac.aracId")
     @Mapping(source = "ekHizmetlerIds", target = "ekHizmetler", qualifiedByName = "mapIdsToEkHizmet")
-    /*@Mapping(source = "teminatlarIds", target = "teminatlar", qualifiedByName = "mapIdsToTeminat")*/
+    @Mapping(source = "teminatlarIds", target = "teminatlar", qualifiedByName = "mapIdsToTeminat")
     Police toEntity(PoliceDTO dto);
 
     @Named("mapEkHizmetToIds")
@@ -40,10 +41,10 @@ public interface PoliceMapper {
         }).collect(Collectors.toSet());
     }
 
-  /*  @Named("mapTeminatToIds")
+    @Named("mapTeminatToIds")
     default Set<Long> mapTeminatToIds(Set<Teminat> teminatlar) {
         if (teminatlar == null) return null;
-        return teminatlar.stream().map(Teminat::getId).collect(Collectors.toSet());
+        return teminatlar.stream().map(Teminat::getTeminatId).collect(Collectors.toSet());
     }
 
     @Named("mapIdsToTeminat")
@@ -51,8 +52,8 @@ public interface PoliceMapper {
         if (ids == null) return null;
         return ids.stream().map(id -> {
             Teminat t = new Teminat();
-            t.setId(id);
+            t.setTeminatId(id);
             return t;
         }).collect(Collectors.toSet());
-    }*/
+    }
 }

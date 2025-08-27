@@ -62,15 +62,6 @@ public class Police extends BaseEntity{
     )
     private Set<EkHizmet> ekHizmetler = new HashSet<>();
 
-    /*@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinTable(
-            name = "police_teminat",
-            joinColumns = @JoinColumn(name = "police_id"),
-            inverseJoinColumns = @JoinColumn(name = "teminat_id")
-    )
-    private Set<Teminat> teminatlar = new HashSet<>();*/
-
-
     public Long getId() {
         return id;
     }
@@ -143,21 +134,20 @@ public class Police extends BaseEntity{
         this.ekHizmetler = ekHizmetler;
     }
 
-   /* public Set<Teminat> getTeminatlar() {
+   public Set<Teminat> getTeminatlar() {
         return teminatlar;
     }
 
     public void setTeminatlar(Set<Teminat> teminatlar) {
         this.teminatlar = teminatlar;
-    }*/
-
-    /*public AracBilgileri getArac() {
+    }
+    public AracBilgileri getArac() {
         return arac;
     }
 
     public void setArac(AracBilgileri arac) {
         this.arac = arac;
-    }*/
+    }
 
 
 }
