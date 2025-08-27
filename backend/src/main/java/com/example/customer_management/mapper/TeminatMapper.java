@@ -2,9 +2,9 @@ package com.example.customer_management.mapper;
 
 import com.example.customer_management.domain.Teminat;
 
-public class TeminatMapper {
+public interface TeminatMapper {
 
-    public static TeminatDTO toDto(Teminat teminat) {
+    public static TeminatDTO toDTO(Teminat teminat) {
         if (teminat == null) {
             return null;
         }

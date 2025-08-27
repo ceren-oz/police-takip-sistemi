@@ -2,9 +2,9 @@ package com.example.customer_management.mapper;
 
 import com.example.customer_management.domain.AracBilgileri;
 
-public class AracBilgileriMapper {
+public interface AracBilgileriMapper {
 
-    public static AracBilgileriDTO toDto(AracBilgileri entity) {
+    public static AracBilgileriDTO toDTO(AracBilgileri entity) {
         if (entity == null) {
             return null;
         }
