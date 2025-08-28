@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface EkHizmetRepository extends JpaRepository<EkHizmet, Long> {
 
-    @Query("SELECT e FROM EkHizmet e JOIN e.policeSet p WHERE p.id = :policeId")
+    @Query("SELECT e FROM EkHizmet e JOIN e.policeler p WHERE p.id = :policeId")
     List<EkHizmet> findAllByPoliceId(@Param("policeId") Long policeId);
 }

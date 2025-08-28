@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController // Controller olduğunu belirtir
 @RequestMapping("/api/musteri/{musteriId}/telefonlar") // URL prefix
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
 public class MusteriTelefonController {
 
     private final MusteriTelefonService telefonService;

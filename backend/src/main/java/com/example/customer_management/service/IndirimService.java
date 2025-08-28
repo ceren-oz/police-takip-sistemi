@@ -10,12 +10,11 @@ import java.util.Map;
 @Service
 public class IndirimService {
     private static final String API_URL = "https://api.random.org/json-rpc/4/invoke";
-    private static final String API_KEY = "SENIN_API_KEY"; // random.org API key gerekiyor
+    private static final String API_KEY = "3c157d58-6056-43c2-8d26-6b3f6d1bd5e4";
 
     public BigDecimal getIndirimOrani() {
         RestTemplate restTemplate = new RestTemplate();
 
-        // JSON-RPC body
         String body = """
         {
           "jsonrpc": "2.0",
@@ -37,12 +36,21 @@ public class IndirimService {
 
         ResponseEntity<Map> response = restTemplate.exchange(API_URL, HttpMethod.POST, entity, Map.class);
 
-        // Sonucu al
-        Map result = (Map) response.getBody().get("result");
-        Map random = (Map) result.get("random");
-        Integer indirimYuzdesi = (Integer) ((java.util.List) random.get("data")).get(0);
+        Map<String, Object> responseBody = response.getBody();
+        if (responseBody == null || !responseBody.containsKey("result")) {
+            throw new RuntimeException("Random.org API returned no result.");
+        }
 
-        // Yüzdeyi orana çevir (örn: 20% → 0.20)
+        Map<String, Object> result = (Map<String, Object>) responseBody.get("result");
+        Map<String, Object> random = (Map<String, Object>) result.get("random");
+        java.util.List<Integer> data = (java.util.List<Integer>) random.get("data");
+
+        if (data == null || data.isEmpty()) {
+            throw new RuntimeException("Random.org API returned empty data.");
+        }
+
+        Integer indirimYuzdesi = data.get(0);
         return BigDecimal.valueOf(indirimYuzdesi).divide(BigDecimal.valueOf(100));
     }
 }
+

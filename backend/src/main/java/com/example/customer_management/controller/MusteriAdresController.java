@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/musteri/{musteriId}/adres")
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
 public class MusteriAdresController {
 
     private final MusteriAdresService musteriAdresService;
